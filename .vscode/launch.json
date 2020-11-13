@@ -8,7 +8,7 @@
             "name": "rtv1 debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/fractol",
+            "program": "${workspaceFolder}/rtv1",
             // "args": ["/Users/sfalia-f/Desktop/fdF/files/test_maps/42.fdf"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

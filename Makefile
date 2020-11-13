@@ -6,11 +6,11 @@
 #    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/11/12 01:37:54 by andru            ###   ########.fr        #
+#    Updated: 2020/11/13 22:34:24 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			=	fractol
+NAME			=	rtv1
 DIR	=				./src/
 FILES	=			main.c\
 					image.c\
@@ -20,7 +20,8 @@ FILES	=			main.c\
 					events_mouse.c\
 					cl_fun.c cl_fun2.c\
 					test.c\
-					t_coord_fun.c
+					t_coord_fun.c\
+					figure_logic.c
 					#process_multy_thread.c\
 					#process_single_thread.c
 SRCS			=	$(addprefix $(DIR), $(FILES))

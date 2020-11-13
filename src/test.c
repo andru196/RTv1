@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/11/13 22:04:01 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/13 22:54:26 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,48 +20,51 @@ t_coord    normalize(t_coord p)
 	return (p);
 }
 
-t_coord init_coord(double x, double y, double z)
-{
-	t_coord p;
 
-	p.x = x;
-	p.y = y;
-	p.z = z;
-	return (p);
-}
-
-int ray_intersect(const t_sphere *sph, const t_coord orig, const t_coord dir, double t0)
+t_figlst *ray_intersect(t_figlst *figlst, const t_coord orig, const t_coord dir, double t0)
 {
+	while (figlst)
+	{
+		t_sphere *sph = figlst->figure;
 		t_coord L = min_coord(sph->center, orig);
 		double tca = ska_mult_coord(L, dir);
 		double d2 = ska_mult_coord(L, L) - tca * tca;
 		if (d2 > sph->radius*sph->radius)
-			return 0;
+		{
+			figlst = figlst->next;
+			continue ;
+		}
 		double thc = sqrtf(sph->radius*sph->radius - d2);
 		t0 = tca - thc;
 		double t1 = tca + thc;
 		if (t0 < 0)
 			t0 = t1;
 		if (t0 < 0)
-			return 0;
-		return 1;
+		{
+			figlst = figlst->next;
+			continue ;
+		}
+		return figlst;
+	}
+	return (0);
 }
 
-t_coord cast_ray(const t_coord orig, const t_coord dir, const t_sphere *sphere)
+t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst)
 {
+	t_figlst *rez;
+
 	float sphere_dist = 99999999999999999999999999999999999999999999999999999.;
-	if (!ray_intersect(sphere, orig, dir, sphere_dist)) {
-		
+	if (!( rez = ray_intersect(figlst, orig, dir, sphere_dist)))
+	{
 		{
 			t_coord def = {0.2, 0.7, 0.8};
 			return def;
 		}
 	}
-	t_coord def = {0.4, 0.4, 0.3};
-	return def;
+	return (((t_sphere *)rez->figure)->color);
 }
 
-void render(const t_sphere *sphere, int *data) 
+void render(const t_figlst *figures, int *data) 
 {
 	const int   fov = PI / 2.;
 	t_coord *framebuffer = malloc(WIDTH * HEIGHT * sizeof(t_clcomponents));
@@ -75,7 +78,7 @@ void render(const t_sphere *sphere, int *data)
 			float y = -(2*(j + 0.5)/(float)HEIGHT - 1)*tan(fov/2.);
 			t_coord dir = normalize(init_coord(x, y, -1));
 			//framebuffer[i + j * WIDTH] 
-			t_coord c= cast_ray(init_coord(0,0,0), dir, sphere);
+			t_coord c= cast_ray(init_coord(0,0,0), dir, figures);
 			*data++ = (((int)(c.x * 255)) << 16)
 				| (((int)(c.y * 255)) << 8)
 				| ((int)(c.z * 255));

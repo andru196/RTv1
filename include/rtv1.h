@@ -5,13 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/03 17:06:37 by ycorrupt          #+#    #+#             */
-/*   Updated: 2020/11/13 02:01:54 by andru            ###   ########.fr       */
+/*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
+/*   Updated: 2020/11/13 22:46:25 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef RTV1_H
 # define RTV1_H
+
 # include "libft.h"
 # include "mlx.h"
 # include <math.h>
@@ -22,15 +24,18 @@
 # define DELTA 1.5L
 # define DELTA_MAXITER 100
 
-typedef struct s_cont		t_cont;
-typedef struct s_img		t_img;
-typedef struct s_coordinate	t_coord;
-typedef struct s_sphere		t_sphere;
-typedef struct s_cone		t_cone;
-typedef struct s_cylinder	t_cylind;
-typedef unsigned char		byte;
-typedef unsigned long long	t_llu;
+typedef struct s_cont			t_cont;
+typedef struct s_img			t_img;
+typedef struct s_coordinate		t_coord;
+typedef struct s_sphere			t_sphere;
+typedef struct s_cone			t_cone;
+typedef struct s_cylinder		t_cylind;
+typedef struct s_plane			t_plane;
+typedef unsigned char			byte;
+typedef unsigned long long		t_llu;
 typedef struct s_clcomponents	t_clcomponents;
+typedef enum e_figure			t_figure;
+typedef struct s_figlst			t_figlst;
 
 # include "cl_module.h"
 
@@ -45,6 +50,22 @@ struct					s_img
 	int					width;
 	int					height;
 };
+
+enum					e_figure
+{
+	f_sphere = 1,
+	f_plane = 2,
+	f_cylinder,
+	f_cone
+};
+
+struct 					s_figlst
+{
+	t_figure			kind;
+	void				*figure;
+	t_figlst			*next;
+};
+
 
 struct					s_cont
 {
@@ -74,6 +95,7 @@ struct					s_plane
 struct					s_sphere
 {
 	t_coord				center;
+	t_coord				color;
 	unsigned			radius;
 };
 
@@ -95,8 +117,6 @@ struct					s_cone
 	unsigned			height;
 };
 
-//plane, sphere, cylinder and cone
-
 t_img					*new_image(void *mlx_ptr, int width, int height);
 void					configure_events(t_cont *c);
 void					free_cont(t_cont *c);
@@ -108,6 +128,8 @@ t_coord					sum_coord(t_coord c1, t_coord c2);
 t_coord					min_coord(t_coord c1, t_coord c2);
 double 					ska_mult_coord(t_coord c1, t_coord c2);
 t_coord					vect_mult_coord(t_coord c1, t_coord c2);
-void					render(const t_sphere *sphere, int *data) ;
+void					render(const t_figlst *figures, int *data);
+t_coord					init_coord(double x, double y, double z);
+t_figlst				*init_figure(t_figure fig);
 
 #endif
