@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 01:09:19 by andru             #+#    #+#             */
-/*   Updated: 2020/11/12 01:25:10 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/14 01:17:26 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,12 @@ t_coord	vect_mult_coord(t_coord c1, t_coord c2)
 	rez.y = -(c1.x * c2.z - c1.z * c2.x);
 	rez.z = c1.x * c2.y - c1.y * c2.x;
 	return (rez);
+}
+
+t_coord	mult_coord_sca(t_coord c1, double n)
+{
+	c1.x *= n;
+	c1.y *= n;
+	c1.z *= n;
+	return (c1);
 }

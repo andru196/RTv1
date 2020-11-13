@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/11/13 22:46:25 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/14 01:32:21 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef unsigned long long		t_llu;
 typedef struct s_clcomponents	t_clcomponents;
 typedef enum e_figure			t_figure;
 typedef struct s_figlst			t_figlst;
+typedef struct s_light			t_light;
+typedef struct s_material		t_material;
 
 # include "cl_module.h"
 
@@ -84,6 +86,13 @@ struct					s_coordinate
 	double				z;
 };
 
+struct					s_material
+{
+	double				refractive_index;
+    double				albedo[4];
+    t_coord				diffuse_color;
+    double				specular_exponent;
+};
 
 struct					s_plane
 {
@@ -95,7 +104,7 @@ struct					s_plane
 struct					s_sphere
 {
 	t_coord				center;
-	t_coord				color;
+	t_material			mater;
 	unsigned			radius;
 };
 
@@ -117,6 +126,13 @@ struct					s_cone
 	unsigned			height;
 };
 
+struct					s_light
+{
+	t_coord				position;
+    double				intensity;
+};
+
+
 t_img					*new_image(void *mlx_ptr, int width, int height);
 void					configure_events(t_cont *c);
 void					free_cont(t_cont *c);
@@ -128,7 +144,8 @@ t_coord					sum_coord(t_coord c1, t_coord c2);
 t_coord					min_coord(t_coord c1, t_coord c2);
 double 					ska_mult_coord(t_coord c1, t_coord c2);
 t_coord					vect_mult_coord(t_coord c1, t_coord c2);
-void					render(const t_figlst *figures, int *data);
+t_coord					mult_coord_sca(t_coord c1, double n);
+void					render(const t_figlst *figures, int *data, t_list *lights);
 t_coord					init_coord(double x, double y, double z);
 t_figlst				*init_figure(t_figure fig);
 
