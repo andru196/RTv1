@@ -6,7 +6,7 @@
 #    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/11/01 22:13:34 by andru            ###   ########.fr        #
+#    Updated: 2020/11/12 01:37:54 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,19 +15,18 @@ DIR	=				./src/
 FILES	=			main.c\
 					image.c\
 					events.c\
-					complex.c\
 					free_cont.c\
 					events_keyboard.c\
 					events_mouse.c\
 					cl_fun.c cl_fun2.c\
-					fractol_default.c\
-					process_multy_thread.c\
-					process_single_thread.c\
-					formulas.c
+					test.c\
+					t_coord_fun.c
+					#process_multy_thread.c\
+					#process_single_thread.c
 SRCS			=	$(addprefix $(DIR), $(FILES))
 OBJ				=	$(patsubst %.c, %.o, $(SRCS))
 CC				=	clang
-FLAGS			=	-Wall -Wextra -Werror
+FLAGS			=	-g#-Wall -Wextra -Werror
 LIBRARY			=	./libft/
 LIBFT			=	$(LIBRARY)libft.a
 HEADERS			=	include/ $(LIBRARY)includes

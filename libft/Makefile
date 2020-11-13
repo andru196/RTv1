@@ -6,7 +6,7 @@
 #    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/05 17:33:42 by ycorrupt          #+#    #+#              #
-#    Updated: 2020/10/29 00:53:38 by andru            ###   ########.fr        #
+#    Updated: 2020/11/13 01:32:17 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJ2 = csp.o dioux.o f.o flags.o ft_dtoa.o print.o searching.o size_converter.o 
 OBJ = $(OBJ1) $(OBJ2)
 HEADER = ./includes
 CC = clang
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g#-Wall -Wextra -Werror
 
 all: $(NAME)
 

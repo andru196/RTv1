@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 01:04:41 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/11/08 17:30:19 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/13 02:02:22 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_cont(t_cont *c)
 			mlx_destroy_window(c->mlx_ptr, c->mlx_win);
 		if (c->mlx_ptr)
 			free((void *)c->mlx_ptr);
-		cl_release_all(&c->clcomponets);
-		ft_memdel((void **)&c->clcomponets.program_src);
+		//cl_release_all(&c->clcomponets);
+		//ft_memdel((void **)&c->clcomponets.program_src);
 	}
 }

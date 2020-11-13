@@ -6,20 +6,37 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 00:28:52 by andru             #+#    #+#             */
-/*   Updated: 2020/11/08 17:27:30 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/13 00:52:57 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CL_PARAMETR_H
 # define CL_PARAMETR_H
 # include <CL/cl.h>
-# include "rtv1.h"
 # define MANDELBROT "mandelbrotProcess"
 # define JULIA "juliaProcess"
 # define BURNINGSHIP "burningShipProcess"
 typedef struct s_platform   	t_platform_info;
 typedef struct s_device     	t_device_info;
 typedef struct s_clcomponents	t_clcomponents;
+
+struct							s_clcomponents
+{
+	cl_device_id				device_id;
+	cl_context					context;
+	cl_command_queue			command_queue;
+	cl_program					program;
+	cl_kernel					kernel;
+	cl_platform_id				platform_id;
+	cl_uint						ret_num_devices;
+	cl_uint						ret_num_platforms;
+	cl_mem						buffer;
+	cl_int						ret;
+	char						*program_src;
+	int							is_connected;
+};
+
+# include "rtv1.h"
 
 struct							s_platform
 {
@@ -50,21 +67,7 @@ struct							s_device
 	char						*platform;
 };
 
-struct							s_clcomponents
-{
-	cl_device_id				device_id;
-	cl_context					context;
-	cl_command_queue			command_queue;
-	cl_program					program;
-	cl_kernel					kernel;
-	cl_platform_id				platform_id;
-	cl_uint						ret_num_devices;
-	cl_uint						ret_num_platforms;
-	cl_mem						buffer;
-	cl_int						ret;
-	char						*program_src;
-	int							is_connected;
-};
+
 
 int								cl_release_all(t_clcomponents *comp);
 int								cl_read_img(t_clcomponents *comp, t_img *img);

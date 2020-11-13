@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 13:09:54 by ycorrupt          #+#    #+#             */
-/*   Updated: 2020/10/29 01:01:47 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/09 00:47:19 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define ULL	unsigned long long
 # define LNGL	long long int
 # define UC		unsigned char
+# define MAX_INT32	2147483647
 typedef struct	s_list
 {
 	void			*content;
