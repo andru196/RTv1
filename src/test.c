@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/11/16 22:08:39 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/17 00:12:31 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_coord    normalize(t_coord p)
 t_coord	reflect(t_coord I, t_coord N)
 {//////////////////////////////////////////////??????I - N*2.f*(I*N)
     return min_coord(I,
-		vect_mult_coord(N,
-			(mult_coord_sca(
-				vect_mult_coord(I, N),
+		mult_coord_sca(N,
+			((
+				ska_mult_coord(I, N)*
 			2.f))));
 }
 
@@ -85,9 +85,27 @@ t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, 
 	{
 		t_light light = *(t_light *)(lights->content);
         t_coord light_dir = normalize(min_coord(light.position, hit));
+
+        t_coord shadow_orig;
+		if (ska_mult_coord(light_dir, N) < 0)
+			shadow_orig = min_coord(hit, mult_coord_sca(N, 1e-3));
+		else
+			shadow_orig = sum_coord(hit, mult_coord_sca(N, 1e-3)); // checking if the point lies in the shadow of the lights[i]
+        t_coord shadow_pt, shadow_N;
+        t_material tmpmaterial;
+
+        if (scene_intersect(figlst, shadow_orig, light_dir, &shadow_pt, &shadow_N, &tmpmaterial)
+			&& norm(min_coord(shadow_pt, shadow_orig)) <
+												norm(min_coord(light.position, hit)))
+		{
+			lights = lights->next;
+			continue;
+		}
+		
 		double num = ska_mult_coord(light_dir,N);
     	diffuse_light_intensity  += light.intensity * (0 > num ? 0 : num);
-		num = ska_mult_coord(reflect(light_dir, N), dir);
+		num = ska_mult_coord(
+			reflect(light_dir, N), dir);
 		specular_light_intensity += powf(num > 0 ? num : 0, material.specular_exponent) * light.intensity;
 		lights = lights->next;
 	}
@@ -109,8 +127,15 @@ void render(const t_figlst *figures, int *data, t_list *lights)
 			float x =  (2*(i + 0.5)/(float)WIDTH  - 1)*tan(fov/2.)*WIDTH/(float)HEIGHT;
 			float y = -(2*(j + 0.5)/(float)HEIGHT - 1)*tan(fov/2.);
 			t_coord dir = normalize(init_coord(x, y, -1));
-			//framebuffer[i + j * WIDTH] 
-			t_coord c= cast_ray(init_coord(0,0,0), dir, figures, lights);
+			t_coord c= cast_ray(init_coord(0,0,0), dir, figures, lights);			
+			{
+				double max = c.x > c.y && c.x > c.z ? c.x
+								: c.y > c.x && c.y > c.z ? c.y
+								: c.z;
+				if (max > 1)
+					c = mult_coord_sca(c,(1./max));
+			}
+			
 			*data++ = (((int)(c.x * 255)) << 16)
 				| (((int)(c.y * 255)) << 8)
 				| ((int)(c.z * 255));

@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/11/16 22:09:26 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/17 00:12:04 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ t_list	*get_lights()
 	t_light light;
 	t_list *rez;
 
-	light.intensity = 0.5;
-	light.position = init_coord(0, -1, -1);
+	light.intensity = 0.9;
+	light.position = init_coord(-9.3, 3.6, -1);
 	rez = ft_lstnew(&light, sizeof(t_light));
 
-	light.intensity = 0.8;
-	light.position = init_coord(10, -11, -11);
+	light.intensity = 0.9;
+	light.position = init_coord(10, -11, 11);
 	rez->next = ft_lstnew(&light, sizeof(t_light));
 	return (rez);
 }

@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 01:09:19 by andru             #+#    #+#             */
-/*   Updated: 2020/11/14 01:17:26 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/16 23:39:22 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,9 @@ t_coord	mult_coord_sca(t_coord c1, double n)
 	c1.y *= n;
 	c1.z *= n;
 	return (c1);
+}
+
+double	norm(t_coord c)
+{
+	return sqrt(c.x * c.x + c.y * c.y + c.z * c.z);
 }

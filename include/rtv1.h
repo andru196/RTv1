@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/11/14 01:32:21 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/16 22:18:16 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,6 @@ t_coord					mult_coord_sca(t_coord c1, double n);
 void					render(const t_figlst *figures, int *data, t_list *lights);
 t_coord					init_coord(double x, double y, double z);
 t_figlst				*init_figure(t_figure fig);
+double					norm(t_coord c);
 
 #endif
