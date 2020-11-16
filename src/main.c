@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/11/14 01:49:02 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/16 22:09:26 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@ static t_figlst		*test_list()
 {
 	t_figlst	*rez[2];
 	double		radius = 2;
+
+	t_material	red_rubber;
+	red_rubber.albedo[0] = 0.9;
+	red_rubber.albedo[1] = 0.1;
+	red_rubber.diffuse_color = init_coord(0.3, 0.1, 0.1);
+	red_rubber.specular_exponent = 10;
+	t_material	ivory;
+	
+	ivory.albedo[0] = 0.6;
+	ivory.albedo[1] = 0.3;
+	ivory.diffuse_color = init_coord(0.4, 0.4, 0.3);
+	ivory.specular_exponent = 50;
 
 	rez[0] = init_figure(f_sphere);
 	rez[1] = rez[0];
@@ -30,28 +42,28 @@ static t_figlst		*test_list()
 	((t_sphere*)rez[1]->figure)->center = init_coord(-10, 3, -13);
 	((t_sphere*)rez[1]->figure)->radius = 4;
 	mat.diffuse_color = init_coord(0.5, 1, 0);
-	((t_sphere*)rez[1]->figure)->mater = mat;
+	((t_sphere*)rez[1]->figure)->mater = red_rubber;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
 	((t_sphere*)rez[1]->figure)->center = init_coord(0.5, 1, -5);
 	((t_sphere*)rez[1]->figure)->radius = 1.5;
 	mat.diffuse_color = init_coord(0.33, 0.33, 0.33);
-	((t_sphere*)rez[1]->figure)->mater = mat;
+	((t_sphere*)rez[1]->figure)->mater = ivory;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
 	((t_sphere*)rez[1]->figure)->center = init_coord(0.5, 2, -5);
 	((t_sphere*)rez[1]->figure)->radius = 1.5;
 	mat.diffuse_color = init_coord(0.7, 0, 0.1);
-	((t_sphere*)rez[1]->figure)->mater = mat;
+	((t_sphere*)rez[1]->figure)->mater = red_rubber;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
 	((t_sphere*)rez[1]->figure)->center = init_coord(0, 0, -25);
 	((t_sphere*)rez[1]->figure)->radius = 1.5;
 	mat.diffuse_color = init_coord(0, 0, 0.9);
-	((t_sphere*)rez[1]->figure)->mater = mat;
+	((t_sphere*)rez[1]->figure)->mater = ivory;
 	return rez[0];
 }
 

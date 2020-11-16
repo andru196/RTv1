@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/11/14 01:42:32 by andru            ###   ########.fr       */
+/*   Updated: 2020/11/16 22:08:39 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@ t_coord    normalize(t_coord p)
 		p.z /= w;
 	}
 	return (p);
+}
+
+t_coord	reflect(t_coord I, t_coord N)
+{//////////////////////////////////////////////??????I - N*2.f*(I*N)
+    return min_coord(I,
+		vect_mult_coord(N,
+			(mult_coord_sca(
+				vect_mult_coord(I, N),
+			2.f))));
 }
 
 
@@ -71,17 +80,20 @@ t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, 
 
 	if (!(scene_intersect(figlst, orig, dir, &hit, &N, &material)))
 			return init_coord(0.2, 0.2, 0.2);
-	double diffuse_light_intensity = 0;
+	double diffuse_light_intensity = 0, specular_light_intensity = 0;
 	while (lights)
 	{
 		t_light light = *(t_light *)(lights->content);
         t_coord light_dir = normalize(min_coord(light.position, hit));
 		double num = ska_mult_coord(light_dir,N);
     	diffuse_light_intensity  += light.intensity * (0 > num ? 0 : num);
+		num = ska_mult_coord(reflect(light_dir, N), dir);
+		specular_light_intensity += powf(num > 0 ? num : 0, material.specular_exponent) * light.intensity;
 		lights = lights->next;
 	}
-	return mult_coord_sca(material.diffuse_color, diffuse_light_intensity > 1 ?
-		1 : diffuse_light_intensity);
+	return sum_coord(mult_coord_sca(mult_coord_sca(material.diffuse_color, diffuse_light_intensity > 1 ?
+		1 : diffuse_light_intensity), material.albedo[0]), mult_coord_sca(mult_coord_sca(init_coord(1., 1., 1.),
+			specular_light_intensity), material.albedo[1]));
 }
 
 void render(const t_figlst *figures, int *data, t_list *lights) 
