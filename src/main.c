@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/11/17 00:12:04 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/02 01:54:31 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static t_figlst		*test_list()
 	rez[1] = rez[0];
 	((t_sphere*)rez[1]->figure)->center = init_coord(-8, 1, -15);
 	((t_sphere*)rez[1]->figure)->radius = 2;
-	t_material mat;
-	mat.diffuse_color = init_coord(1, 1, 1);
+	t_material mat = ivory;
+	mat.diffuse_color = init_coord(0.95, 0.95, 0.95);
 	((t_sphere*)rez[1]->figure)->mater = mat;
 
 	rez[1]->next = init_figure(f_sphere);
@@ -64,6 +64,30 @@ static t_figlst		*test_list()
 	((t_sphere*)rez[1]->figure)->radius = 1.5;
 	mat.diffuse_color = init_coord(0, 0, 0.9);
 	((t_sphere*)rez[1]->figure)->mater = ivory;
+
+
+
+	t_material	plane_rubber;
+	plane_rubber.albedo[0] = 0.3;
+	plane_rubber.albedo[1] = 0.1;
+	plane_rubber.diffuse_color = init_coord(0.3, 0.1, 0.1);
+	plane_rubber.specular_exponent = 17;
+	rez[1]->next = init_figure(f_plane);
+	rez[1] = rez[1]->next;
+	((t_plane*)rez[1]->figure)->n = init_coord(0.1, 0.1, 1);
+	((t_plane*)rez[1]->figure)->r = -40;
+	((t_plane*)rez[1]->figure)->mater = plane_rubber;
+
+	t_material	plane;
+	plane.albedo[0] = 0.3;
+	plane.albedo[1] = 0.1;
+	plane.diffuse_color = init_coord(0.1, 0.1, 0.3);
+	plane.specular_exponent = 1;
+	rez[1]->next = init_figure(f_plane);
+	rez[1] = rez[1]->next;
+	((t_plane*)rez[1]->figure)->n = init_coord(10, 1, 0.1);
+	((t_plane*)rez[1]->figure)->r = 112;
+	((t_plane*)rez[1]->figure)->mater = plane;
 	return rez[0];
 }
 
@@ -73,12 +97,16 @@ t_list	*get_lights()
 	t_list *rez;
 
 	light.intensity = 0.9;
-	light.position = init_coord(-9.3, 3.6, -1);
+	light.position = init_coord(-9.3, 3.6, -2);
 	rez = ft_lstnew(&light, sizeof(t_light));
 
 	light.intensity = 0.9;
 	light.position = init_coord(10, -11, 11);
 	rez->next = ft_lstnew(&light, sizeof(t_light));
+	
+	light.intensity = 0.9;
+	light.position = init_coord(-50.0, -0.0, -1);
+	rez->next->next = ft_lstnew(&light, sizeof(t_light));
 	return (rez);
 }
 

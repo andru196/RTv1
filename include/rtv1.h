@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/11/16 22:18:16 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/02 00:58:50 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@ struct					s_material
 
 struct					s_plane
 {
-	t_coord				a;
-	t_coord				b;
-	t_coord				c;
+	t_coord				n;
+	double				r;
+	t_material			mater;
 };
 
 struct					s_sphere
 {
 	t_coord				center;
 	t_material			mater;
-	unsigned			radius;
+	double				radius;
 };
 
 /*

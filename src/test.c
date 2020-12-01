@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/11/17 00:12:31 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/02 01:52:12 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ t_coord	reflect(t_coord I, t_coord N)
 }
 
 
-int ray_intersect(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0)
+int ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0)
 {
-		t_coord L = min_coord(sph->center, orig);
-		double tca = ska_mult_coord(L, dir);
-		double d2 = ska_mult_coord(L, L) - tca * tca;
+		t_coord L = min_coord(sph->center, orig); //Обозначим s = C – A
+		double tca = ska_mult_coord(L, dir); // sd
+		double d2 = ska_mult_coord(L, L) - tca * tca; //s^2 - (sd)^2 где (d,s) — скалярное произведение векторов d и s
 		if (d2 > sph->radius*sph->radius)
 			return 0;
-		double thc = sqrtf(sph->radius*sph->radius - d2);
-		*t0 = tca - thc;
-		double t1 = tca + thc;
+		double thc = sqrtf(sph->radius*sph->radius - d2); //r^2 - s^2 + (d,s)^2
+		*t0 = tca - thc; //(d,s) - r^2 + s^2 + (d,s)^2
+		double t1 = tca + thc; //s^2 + r^2 - s^2 - (d,s)^2
 		if (*t0 < 0)
 			*t0 = t1;
 		if (*t0 < 0)
@@ -50,25 +50,88 @@ int ray_intersect(t_sphere *sph, const t_coord orig, const t_coord dir, double *
 		return 1;
 }
 
-int scene_intersect (t_figlst *lst, const t_coord orig, const t_coord dir, t_coord *hit, t_coord *N, t_material *material)
+int ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir, double *t)
+{
+		static double r = -1.0987654;
+		static double rez = -1.0987654;
+	
+		if (ska_mult_coord(dir, pln->n) == .0)
+			return (0);
+		if (pln->r != r)
+		{
+			r = pln->r;
+			rez = pln->r / sqrt(pln->n.x * pln->n.x + pln->n.y * pln->n.y + pln->n.z * pln->n.z);
+		}
+		*t = (rez - ska_mult_coord(dir, pln->n)) / ska_mult_coord(dir, pln->n);
+		return *t > 0;
+}
+
+double	sgn(double num)
+{
+	if (num > 0)
+		return (1);
+	if (num == 0)
+		return (0);
+	return (-1);
+}
+
+int scene_intersect(t_figlst *lst, const t_coord orig, const t_coord dir, t_coord *hit, t_coord *N, t_material *material)
 {
 	t_sphere	*sph;
 	double		spheres_dist = 99999999999999999999999999999999999999999999999999999.;
 	double		dist_i = spheres_dist;
 
+	double checkerboard_dist = 99999999999999999999999999999999999999999999999999999.;
 	while (lst)
 	{
-		sph = lst->figure;
-		if (ray_intersect(sph, orig, dir, &dist_i) && dist_i < spheres_dist)
+		if (lst->kind == f_sphere)
 		{
-			spheres_dist = dist_i;
-            *hit = sum_coord(orig, mult_coord_sca(dir, dist_i));
-            *N = normalize(min_coord(*hit, sph->center));
-            *material = sph->mater;
+			sph = lst->figure;
+			if (ray_intersect_spher(sph, orig, dir, &dist_i) && dist_i < spheres_dist)
+			{
+				spheres_dist = dist_i;
+				*hit = sum_coord(orig, mult_coord_sca(dir, dist_i));
+				*N = normalize(min_coord(*hit, sph->center));
+				*material = sph->mater;
+			}
+		}
+		else if (lst->kind == f_plane)
+		{
+			double d;
+			t_plane *pln = lst->figure;
+			if (ray_intersect_plane(pln, orig, dir, &d)) 
+			{
+				if (d < checkerboard_dist)
+					checkerboard_dist = d;
+				if (checkerboard_dist < spheres_dist)
+				{
+					*hit = sum_coord(orig, mult_coord_sca(dir, d));
+					*N = normalize(mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
+					*material = pln->mater;
+				}
+			}
 		}
 		lst = lst->next;
 	}
-	return spheres_dist < 1000;
+
+	if (fabs(dir.y) > 1e-3 && 0) 
+	{
+        double d = -(orig.y + 4) / dir.y; // the checkerboard plane has equation y = -4
+        t_coord pt = sum_coord(orig, mult_coord_sca(dir, d));
+        if (d>0 && fabs(pt.x)<10 && pt.z<-10 && pt.z>-30 && d<spheres_dist) 
+		{
+            checkerboard_dist = d;
+            *hit = pt;
+            *N = init_coord(0,1,0);
+            material->diffuse_color = ((int)(.5*hit->x+1000) + (int)(.5*hit->z)) & 1 
+			? init_coord(1,1,1) : init_coord(1, .7, .3);
+            material->diffuse_color = mult_coord_sca(material->diffuse_color, .3);
+			material->albedo[0] = 0.9;
+			material->albedo[1] = 0.1;
+			material->specular_exponent = 10;
+        }
+    }
+	return spheres_dist < 1000 || checkerboard_dist < 1000;
 }
 
 t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, t_list *lights)
