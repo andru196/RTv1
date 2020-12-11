@@ -6,10 +6,11 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/12 00:29:07 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/12 00:31:26 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//http://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytracing%20shapes.htm
 #include "rtv1.h"
 
 #define ZERO 0.0000000000000000000000000000000000000000000000000000000000000001
