@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/02 00:58:50 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/12 00:21:34 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ struct					s_sphere
 struct					s_cylinder
 {
 	t_coord				center;
-	unsigned			radius;
-	unsigned			height;
+	t_coord				v;
+	double				r;
+	double				maxm;
+	t_material			mater;
 };
 
 struct					s_cone
@@ -149,5 +151,7 @@ void					render(const t_figlst *figures, int *data, t_list *lights);
 t_coord					init_coord(double x, double y, double z);
 t_figlst				*init_figure(t_figure fig);
 double					norm(t_coord c);
+double					len_vect(t_coord c1, t_coord c2);
+t_coord					normalize(t_coord p);
 
 #endif
