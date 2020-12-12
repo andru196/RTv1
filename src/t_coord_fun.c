@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_coord_fun.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 01:09:19 by andru             #+#    #+#             */
-/*   Updated: 2020/12/11 17:16:41 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/12 18:08:51 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,16 @@ double	len_vect(t_coord c1, t_coord c2)
 		+ (c2.y - c1.y) * (c2.y - c1.y)
 		+ (c2.z - c1.z) * (c2.z - c1.z)
 	));
+}
+
+t_coord    normalize(t_coord p)
+{
+	double w = sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
+	if (w != 0)
+	{
+		p.x /= w;
+		p.y /= w;
+		p.z /= w;
+	}
+	return (p);
 }

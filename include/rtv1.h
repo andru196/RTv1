@@ -6,7 +6,7 @@
 /*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/12 17:07:35 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/12 19:02:20 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ struct					s_material
 struct					s_plane
 {
 	t_coord				n;
-	double				r;
+	t_coord				c;
 	t_material			mater;
 };
 
@@ -121,11 +121,20 @@ struct					s_cylinder
 	t_material			mater;
 };
 
+/*
+** C is the vertex of the cone
+** V is the axis vector
+** k is the tangent of half angle of the cone
+** minm, maxm define cap points
+*/
 struct					s_cone
 {
-	t_coord				center;
-	unsigned			radius;
-	unsigned			height;
+	t_coord				c;
+	t_coord				v;
+	double				k;
+	double				minm;
+	double				maxm;
+	t_material			mater;
 };
 
 struct					s_light
@@ -153,5 +162,9 @@ t_figlst				*init_figure(t_figure fig);
 double					norm(t_coord c);
 double					len_vect(t_coord c1, t_coord c2);
 t_coord					normalize(t_coord p);
+int						ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir, double *t);
+int						ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0);
+int						ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m);
+int						ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, double *t0, double *m);
 
 #endif

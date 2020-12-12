@@ -6,7 +6,7 @@
 /*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/12 17:10:29 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/12 19:06:09 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,17 @@ static t_figlst		*test_list()
 
 
 
-	// t_material	plane_rubber;
-	// plane_rubber.albedo[0] = 0.3;
-	// plane_rubber.albedo[1] = 0.1;
-	// plane_rubber.diffuse_color = init_coord(0.7, 0.1, 0.1);
-	// plane_rubber.specular_exponent = 17;
-	// rez[1]->next = init_figure(f_plane);
-	// rez[1] = rez[1]->next;
-	// ((t_plane*)rez[1]->figure)->n = init_coord(ZERO, ZERO, 1);
-	// ((t_plane*)rez[1]->figure)->r = -30;
-	// ((t_plane*)rez[1]->figure)->mater = plane_rubber;
+	t_material	plane_rubber;
+	plane_rubber.albedo[0] = 0.3;
+	plane_rubber.albedo[1] = 0.1;
+	plane_rubber.specular_exponent = 4;
+	plane_rubber.diffuse_color = init_coord(0.1, 0.1, 0.6);
+	rez[1]->next = init_figure(f_plane);
+	rez[1] = rez[1]->next;
+
+	((t_plane*)rez[1]->figure)->n = normalize(init_coord(ZERO, 0.5, 1));
+	((t_plane*)rez[1]->figure)->c = init_coord(0, 0, -17);
+	((t_plane*)rez[1]->figure)->mater = plane_rubber;
 
 	// t_material	plane;
 	// plane.albedo[0] = 0.3;
@@ -99,6 +100,15 @@ static t_figlst		*test_list()
 	((t_cylind*)rez[1]->figure)->center = init_coord(-1, 0,-5);
 	((t_cylind*)rez[1]->figure)->r = 1;
 	((t_cylind*)rez[1]->figure)->mater = red_rubber;
+
+	rez[1]->next = init_figure(f_cone);
+	rez[1] = rez[1]->next;
+	((t_cone*)rez[1]->figure)->v = normalize(init_coord(0, 1, 0.5));
+	((t_cone*)rez[1]->figure)->maxm = 2;
+	((t_cone*)rez[1]->figure)->minm = 0;
+	((t_cone*)rez[1]->figure)->c = init_coord(1, 0,-5);
+	((t_cone*)rez[1]->figure)->k = 0.3;
+	((t_cone*)rez[1]->figure)->mater = ivory;
 	return rez[0];
 }
 
@@ -127,7 +137,7 @@ int		main(int argc, char **argv)
 	t_img	*img;
 
 	//if (argc != 2)
-	//	return ft_printf("Usage: ./trv1 <file>") ? 1 : 1;
+	//	return ft_printf("Usage: ./rtv1 <file>") ? 1 : 1;
 	ft_bzero(&cont, sizeof(t_cont));
 	if (!(cont.mlx_ptr = mlx_init()) ||
 		!(cont.mlx_win = mlx_new_window(cont.mlx_ptr, WIDTH, HEIGHT, "rtv1")))

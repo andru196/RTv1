@@ -3,127 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/12 00:13:37 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/12 19:02:03 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-t_coord    normalize(t_coord p)
-{
-	double w = sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
-	if (w != 0)
-	{
-		p.x /= w;
-		p.y /= w;
-		p.z /= w;
-	}
-	return (p);
-}
 
+/*
+** ??????I - N*2.f*(I*N)
+*/
 t_coord	reflect(t_coord I, t_coord N)
-{//////////////////////////////////////////////??????I - N*2.f*(I*N)
+{
     return min_coord(I,
 		mult_coord_sca(N,
 			((
 				ska_mult_coord(I, N)*
 			2.f))));
-}
-
-
-// int ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0)
-// {
-// 		t_coord L = min_coord(sph->center, orig); //Обозначим s = C – A
-// 		double tca = ska_mult_coord(L, dir); // sd
-// 		double d2 = ska_mult_coord(L, L) - tca * tca; //s^2 - (sd)^2 где (d,s) — скалярное произведение векторов d и s
-// 		if (d2 > sph->radius*sph->radius)
-// 			return 0;
-// 		double thc = sqrtf(sph->radius*sph->radius - d2); //r^2 - s^2 + (d,s)^2
-// 		*t0 = tca - thc; //(d,s) - r^2 + s^2 + (d,s)^2
-// 		double t1 = tca + thc; //s^2 + r^2 - s^2 - (d,s)^2
-// 		if (*t0 < 0)
-// 			*t0 = t1;
-// 		if (*t0 < 0)
-// 			return 0;		
-// 		return 1;
-// }
-
-
-int ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0)
-{
-		t_coord x = min_coord(orig, sph->center);
-		double a = ska_mult_coord(dir, dir);
-		double b = ska_mult_coord(dir, x);
-		double c = ska_mult_coord(x, x) - sph->radius * sph->radius;
-
-		double d = b*b - a*c;
-		if (d < 0 || a == 0)
-			return (0);
-		*t0 = (-b + sqrt(d)) / a;
-		double t = (-b - sqrt(d)) / a;
-		if (t > 0 && t < *t0)
-			*t0 = t;
-		if (t < 0 && *t0 < 0)
-			return (0);
-		return 1;
-}
-
-int ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir, double *t)
-{
-		static double r = -1.098765412353254373562345;
-		static double rez = -1.0987654354725474565622;
-		double				s;
-	
-		s = ska_mult_coord(dir, pln->n);
-		if (s == .0)
-			return (0);
-		if (pln->r != r)
-		{
-			r = pln->r; //определяем расстояние (0,0,0) до плоскости
-			rez = pln->r / sqrt(pln->n.x * pln->n.x + pln->n.y * pln->n.y + pln->n.z * pln->n.z);
-		}
-		*t = (rez - ska_mult_coord(orig, pln->n)) / s;
-		return (*t > 0);
-}
-
-int ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m)
-{
-	double a,b,c, s, d4;
-
-	s = ska_mult_coord(dir, cyl->v);
-	t_coord x = min_coord(orig, cyl->center);
-	
-	a = ska_mult_coord(dir, dir) - s*s;
-	if (a == 0)
-		return (0);
-	b = ska_mult_coord(dir, x) - s * ska_mult_coord(x, cyl->v);
-	c = ska_mult_coord(x, x)
-		- ska_mult_coord(x, cyl->v) * ska_mult_coord(x, cyl->v)
-		- cyl->r * cyl->r;
-
-	d4 = b*b - a*c;
-
-	if (d4 < 0)
-		return (0);	
-	
-	*t = (-b + sqrt(d4)) / a;
-	double t1 = (-b - sqrt(d4)) / a;
-	if (*t < 0 && t1 < 0) return (0);
-	*m = s * *t + ska_mult_coord(x, cyl->v);
-	double m1 = s * t1 + ska_mult_coord(x, cyl->v);
-	
-	if ((t1 > 0 && t1 < *t && m1 >= 0 && m1 <= cyl->maxm)
-		|| !(*m >= 0 && *m <= cyl->maxm))
-	{
-		*t = t1;
-		*m = s * t1 + ska_mult_coord(x, cyl->v);
-	}
-	if ((*m >= 0 && *m <= cyl->maxm))
-		return (1);
-	else
-		return 0;
 }
 
 double	sgn(double num)
@@ -135,7 +33,7 @@ double	sgn(double num)
 	return (-1);
 }
 
-int scene_intersect(t_figlst *lst, const t_coord orig, const t_coord dir, 
+int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir, 
 				t_coord *hit, t_coord *N, t_material *material, int flag)
 {
 	t_sphere	*sph;
@@ -162,12 +60,12 @@ int scene_intersect(t_figlst *lst, const t_coord orig, const t_coord dir,
 			t_plane *pln = lst->figure;
 			if (ray_intersect_plane(pln, orig, dir, &d)) 
 			{
-				if (d < checkerboard_dist && d > 1)
+				if (d < checkerboard_dist)
 					checkerboard_dist = d;
 				if (checkerboard_dist < spheres_dist && d == checkerboard_dist)
 				{
 					*hit = sum_coord(orig, mult_coord_sca(dir, d));
-					*N = normalize(mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
+					*N = (mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
 					*material = pln->mater;
 				}
 			}
@@ -186,6 +84,25 @@ int scene_intersect(t_figlst *lst, const t_coord orig, const t_coord dir,
 					*hit = sum_coord(orig, mult_coord_sca(dir, d));
 					*N = normalize(min_coord(min_coord(*hit, pln->center), mult_coord_sca(pln->v, m)));
 					*material = pln->mater;
+				}
+			}
+		}
+		else if (lst->kind == f_cone)
+		{
+			double d;
+			t_cone *con = lst->figure;
+			double m;
+			if (ray_intersect_cone(con, orig, dir, &d, &m)) 
+			{
+				if (d < checkerboard_dist)
+					checkerboard_dist = d;
+				if (checkerboard_dist < spheres_dist && d == checkerboard_dist)
+				{
+					*hit = sum_coord(orig, mult_coord_sca(dir, d));
+					*N = normalize(
+						min_coord(min_coord(*hit, con->c), mult_coord_sca(con->v, m*(con->k * con->k  + 1)))
+					);
+					*material = con->mater;
 				}
 			}
 		}

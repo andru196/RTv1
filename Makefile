@@ -6,7 +6,7 @@
 #    By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/12/12 17:08:35 by sfalia-f         ###   ########.fr        #
+#    Updated: 2020/12/12 18:09:57 by sfalia-f         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ FILES	=			main.c\
 					cl_fun.c cl_fun2.c\
 					test.c\
 					t_coord_fun.c\
-					figure_logic.c
+					figure_logic.c \
+					shapes.c
 					#process_multy_thread.c\
 					#process_single_thread.c
 SRCS			=	$(addprefix $(DIR), $(FILES))
