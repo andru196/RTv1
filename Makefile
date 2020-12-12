@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
+#    By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/11/13 22:34:24 by andru            ###   ########.fr        #
+#    Updated: 2020/12/12 17:08:35 by sfalia-f         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,16 @@ LIBFT			=	$(LIBRARY)libft.a
 HEADERS			=	include/ $(LIBRARY)includes
 MINILIBDIR		=	minilib/
 INCLUDES		=	-I include/ -I $(LIBRARY)includes -I $(MINILIBDIR)
-LIBS = -lGL -lXext -lX11 -lm -lOpenCL
+ifeq ($(UNAME), Linux)
+	LIBS = -lGL -lXext -lX11 -lm -lOpenCL -L $(MINILIBDIR) -lmlx
+else
+	LIBS = -lmlx -framework OpenGL -framework opencl -framework Appkit
+endif
+
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC)  $(FLAGS) -o $(NAME) $(OBJ) -L $(LIBRARY) -lft -L $(MINILIBDIR) -lmlx  $(LIBS)
+	$(CC)  $(FLAGS) -o $(NAME) $(OBJ) -L $(LIBRARY) -lft   $(LIBS)
 
 $(LIBFT):
 	make -C $(LIBRARY)
