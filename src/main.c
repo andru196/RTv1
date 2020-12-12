@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/12 00:31:26 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/12 17:10:29 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int		main(int argc, char **argv)
 	//	return ft_printf("Usage: ./trv1 <file>") ? 1 : 1;
 	ft_bzero(&cont, sizeof(t_cont));
 	if (!(cont.mlx_ptr = mlx_init()) ||
-		!(cont.mlx_win = mlx_new_window(cont.mlx_ptr, WIDTH, HEIGHT, argv[1])))
+		!(cont.mlx_win = mlx_new_window(cont.mlx_ptr, WIDTH, HEIGHT, "rtv1")))
 		ft_putendl("Start failed!");
 	configure_events(&cont);
 	img = new_image(cont.mlx_ptr, WIDTH, HEIGHT);
