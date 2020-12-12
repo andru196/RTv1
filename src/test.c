@@ -6,7 +6,7 @@
 /*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/12 19:02:03 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/12 19:29:44 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 				if (checkerboard_dist < spheres_dist && d == checkerboard_dist)
 				{
 					*hit = sum_coord(orig, mult_coord_sca(dir, d));
-					*N = (mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
+					*N = normalize(mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
 					*material = pln->mater;
 				}
 			}

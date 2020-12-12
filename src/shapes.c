@@ -6,7 +6,7 @@
 /*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 18:07:08 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/12 19:08:47 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/12 19:22:56 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir, dou
 		return (0);
 	*t = (-ska_mult_coord(x, pln->n))
 		/ s;
+	if (*t > 0)
+		return (1);
 	return (*t > 0);
 }
 

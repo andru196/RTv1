@@ -6,7 +6,7 @@
 /*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/12 19:06:09 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/12 19:33:03 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,19 @@ static t_figlst		*test_list()
 	double		radius = 2;
 
 	t_material	red_rubber;
-	red_rubber.albedo[0] = 0.9;
-	red_rubber.albedo[1] = 0.1;
-	red_rubber.diffuse_color = init_coord(0.3, 0.1, 0.1);
-	red_rubber.specular_exponent = 10;
 	t_material	ivory;
+	{
+		red_rubber.albedo[0] = 0.9;
+		red_rubber.albedo[1] = 0.1;
+		red_rubber.diffuse_color = init_coord(0.3, 0.1, 0.1);
+		red_rubber.specular_exponent = 10;
+		
+		ivory.albedo[0] = 0.6;
+		ivory.albedo[1] = 0.3;
+		ivory.diffuse_color = init_coord(0.4, 0.4, 0.3);
+		ivory.specular_exponent = 50;
+	}
 	
-	ivory.albedo[0] = 0.6;
-	ivory.albedo[1] = 0.3;
-	ivory.diffuse_color = init_coord(0.4, 0.4, 0.3);
-	ivory.specular_exponent = 50;
-
 	rez[0] = init_figure(f_sphere);
 	rez[1] = rez[0];
 	((t_sphere*)rez[1]->figure)->center = init_coord(8, 1, -15);
@@ -40,33 +42,33 @@ static t_figlst		*test_list()
 	mat.diffuse_color = init_coord(0.95, 0.95, 0.95);
 	((t_sphere*)rez[1]->figure)->mater = mat;
 
-	// rez[1]->next = init_figure(f_sphere);
-	// rez[1] = rez[1]->next;
-	// ((t_sphere*)rez[1]->figure)->center = init_coord(-10, 3, -13);
-	// ((t_sphere*)rez[1]->figure)->radius = 4;
-	// mat.diffuse_color = init_coord(0.5, 1, 0);
-	// ((t_sphere*)rez[1]->figure)->mater = red_rubber;
+	rez[1]->next = init_figure(f_sphere);
+	rez[1] = rez[1]->next;
+	((t_sphere*)rez[1]->figure)->center = init_coord(-10, -3, -13);
+	((t_sphere*)rez[1]->figure)->radius = 4;
+	mat.diffuse_color = init_coord(0.5, 1, 0);
+	((t_sphere*)rez[1]->figure)->mater = red_rubber;
 
-	// rez[1]->next = init_figure(f_sphere);
-	// rez[1] = rez[1]->next;
-	// ((t_sphere*)rez[1]->figure)->center = init_coord(0.5, 1, -5);
-	// ((t_sphere*)rez[1]->figure)->radius = 1.5;
-	// mat.diffuse_color = init_coord(0.33, 0.33, 0.33);
-	// ((t_sphere*)rez[1]->figure)->mater = ivory;
+	rez[1]->next = init_figure(f_sphere);
+	rez[1] = rez[1]->next;
+	((t_sphere*)rez[1]->figure)->center = init_coord(0.5, -4, -5);
+	((t_sphere*)rez[1]->figure)->radius = 1.5;
+	mat.diffuse_color = init_coord(0.33, 0.33, 0.33);
+	((t_sphere*)rez[1]->figure)->mater = ivory;
 
-	// rez[1]->next = init_figure(f_sphere);
-	// rez[1] = rez[1]->next;
-	// ((t_sphere*)rez[1]->figure)->center = init_coord(-0.5, 0.3, -8);
-	// ((t_sphere*)rez[1]->figure)->radius = 1.5;
-	// mat.diffuse_color = init_coord(0.7, 0, 0.1);
-	// ((t_sphere*)rez[1]->figure)->mater = red_rubber;
+	rez[1]->next = init_figure(f_sphere);
+	rez[1] = rez[1]->next;
+	((t_sphere*)rez[1]->figure)->center = init_coord(-0.5, -3, -8);
+	((t_sphere*)rez[1]->figure)->radius = 1.5;
+	mat.diffuse_color = init_coord(0.7, 0, 0.1);
+	((t_sphere*)rez[1]->figure)->mater = red_rubber;
 
-	// rez[1]->next = init_figure(f_sphere);
-	// rez[1] = rez[1]->next;
-	// ((t_sphere*)rez[1]->figure)->center = init_coord(0, 0, -25);
-	// ((t_sphere*)rez[1]->figure)->radius = 1.5;
-	// mat.diffuse_color = init_coord(0, 0, 0.9);
-	// ((t_sphere*)rez[1]->figure)->mater = ivory;
+	rez[1]->next = init_figure(f_sphere);
+	rez[1] = rez[1]->next;
+	((t_sphere*)rez[1]->figure)->center = init_coord(0, 0, -25);
+	((t_sphere*)rez[1]->figure)->radius = 1.5;
+	mat.diffuse_color = init_coord(0, 0, 0.9);
+	((t_sphere*)rez[1]->figure)->mater = ivory;
 
 
 
@@ -75,23 +77,24 @@ static t_figlst		*test_list()
 	plane_rubber.albedo[1] = 0.1;
 	plane_rubber.specular_exponent = 4;
 	plane_rubber.diffuse_color = init_coord(0.1, 0.1, 0.6);
+
 	rez[1]->next = init_figure(f_plane);
 	rez[1] = rez[1]->next;
-
 	((t_plane*)rez[1]->figure)->n = normalize(init_coord(ZERO, 0.5, 1));
 	((t_plane*)rez[1]->figure)->c = init_coord(0, 0, -17);
 	((t_plane*)rez[1]->figure)->mater = plane_rubber;
 
-	// t_material	plane;
-	// plane.albedo[0] = 0.3;
-	// plane.albedo[1] = 0.1;
-	// plane.diffuse_color = init_coord(0.1, 0.1, 0.35);
-	// plane.specular_exponent = 10;
-	// rez[1]->next = init_figure(f_plane);
-	// rez[1] = rez[1]->next;
-	// ((t_plane*)rez[1]->figure)->n = init_coord(200, ZERO, ZERO);
-	// ((t_plane*)rez[1]->figure)->r = 10000000;
-	// ((t_plane*)rez[1]->figure)->mater = plane;
+	t_material	plane;
+	plane.albedo[0] = 0.2;
+	plane.albedo[1] = 0.6;
+	plane.diffuse_color = init_coord(0.1, 0.1, 0.35);
+	plane.specular_exponent = 14;
+	
+	rez[1]->next = init_figure(f_plane);
+	rez[1] = rez[1]->next;
+	((t_plane*)rez[1]->figure)->n = init_coord(10, ZERO, ZERO);
+	((t_plane*)rez[1]->figure)->c = init_coord(5, 1, 1);
+	((t_plane*)rez[1]->figure)->mater = red_rubber;
 
 	rez[1]->next = init_figure(f_cylinder);
 	rez[1] = rez[1]->next;
