@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/12 19:29:44 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/14 00:39:15 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ double	sgn(double num)
 {
 	if (num > 0)
 		return (1);
-	if (num == 0)
+	if (num == .0)
 		return (0);
 	return (-1);
 }
@@ -110,10 +110,7 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 	}
 	double rezzzz = spheres_dist > checkerboard_dist ? checkerboard_dist  : spheres_dist;
 
-//	if (flag && checkerboard_dist != 99999999999999999999999999999999999999999999999999999.)
-//		printf("%lf  %lf  %lf\n", rezzzz, spheres_dist, checkerboard_dist);
-
-	return rezzzz < 1000 && rezzzz >= 0;
+	return rezzzz < 1000 && rezzzz >= 0.1;
 }
 
 t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, t_list *lights)
@@ -124,7 +121,7 @@ t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, 
 	t_material material;
 
 	if (!(scene_intersect(figlst, orig, dir, &hit, &N, &material, 1)))
-			return init_coord(0.2, 0.2, 0.2);
+			return init_coord(0, 0, 0);
 	double diffuse_light_intensity = 0, specular_light_intensity = 0;
 	while (lights)
 	{
@@ -159,7 +156,7 @@ t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, 
 			specular_light_intensity), material.albedo[1]));
 }
 
-void render(const t_figlst *figures, int *data, t_list *lights) 
+void render(const t_figlst *figures, int *data, t_list *lights, t_coord orig)
 {
 	const int   fov = PI / 2.;
 	t_coord *framebuffer = malloc(WIDTH * HEIGHT * sizeof(t_clcomponents));
@@ -172,7 +169,7 @@ void render(const t_figlst *figures, int *data, t_list *lights)
 			float x =  (2*(i + 0.5)/(float)WIDTH  - 1)*tan(fov/2.)*WIDTH/(float)HEIGHT;
 			float y = -(2*(j + 0.5)/(float)HEIGHT - 1)*tan(fov/2.);
 			t_coord dir = normalize(init_coord(x, y, -1));
-			t_coord c= cast_ray(init_coord(0,0,0), dir, figures, lights);			
+			t_coord c= cast_ray(orig, dir, figures, lights);			
 			{
 				double max = c.x > c.y && c.x > c.z ? c.x
 								: c.y > c.x && c.y > c.z ? c.y

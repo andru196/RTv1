@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/12 19:33:03 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/14 00:43:21 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,16 @@ static t_figlst		*test_list()
 	((t_plane*)rez[1]->figure)->mater = plane_rubber;
 
 	t_material	plane;
-	plane.albedo[0] = 0.2;
+	plane.albedo[0] = 0.7;
 	plane.albedo[1] = 0.6;
-	plane.diffuse_color = init_coord(0.1, 0.1, 0.35);
+	plane.diffuse_color = init_coord(0.1, 0.5, 0.35);
 	plane.specular_exponent = 14;
 	
 	rez[1]->next = init_figure(f_plane);
 	rez[1] = rez[1]->next;
 	((t_plane*)rez[1]->figure)->n = init_coord(10, ZERO, ZERO);
 	((t_plane*)rez[1]->figure)->c = init_coord(5, 1, 1);
-	((t_plane*)rez[1]->figure)->mater = red_rubber;
+	((t_plane*)rez[1]->figure)->mater = plane;
 
 	rez[1]->next = init_figure(f_cylinder);
 	rez[1] = rez[1]->next;
@@ -124,13 +124,17 @@ t_list	*get_lights()
 	light.position = init_coord(-9.3, 3.6, -2);
 	rez = ft_lstnew(&light, sizeof(t_light));
 
-	light.intensity = 0.9;
-	light.position = init_coord(10, -11, 11);
+	light.intensity = 0.6;
+	light.position = init_coord(10, 0, -11);
 	rez->next = ft_lstnew(&light, sizeof(t_light));
 	
 	light.intensity = 0.9;
-	light.position = init_coord(-50.0, -0.0, -1);
+	light.position = init_coord(-10, 11, -11);
 	rez->next->next = ft_lstnew(&light, sizeof(t_light));
+
+	light.intensity = 0.9;
+	light.position = init_coord(-50.0, -0.0, -1);
+	rez->next->next->next = ft_lstnew(&light, sizeof(t_light));
 	return (rez);
 }
 
@@ -149,7 +153,9 @@ int		main(int argc, char **argv)
 	img = new_image(cont.mlx_ptr, WIDTH, HEIGHT);
 	t_figlst *l = test_list();
 	t_list *lights = get_lights();
-	render(l, img->data, lights);
+	cont.figures = l;
+	cont.lights = lights;
+	render(l, img->data, lights, init_coord(0, 0, 0));
 	cont.img = img;
 	//set_default(&cont);
 	mlx_put_image_to_window(cont.mlx_ptr, cont.mlx_win, img->img_ptr, 0, 0);

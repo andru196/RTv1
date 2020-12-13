@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   t_coord_fun.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 01:09:19 by andru             #+#    #+#             */
-/*   Updated: 2020/12/12 18:08:51 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/14 00:38:17 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_coord sum_coord(t_coord c1, t_coord c2)
+inline t_coord sum_coord(t_coord c1, t_coord c2)
 {
 	c1.x += c2.x;
 	c1.y += c2.y;
@@ -20,7 +20,7 @@ t_coord sum_coord(t_coord c1, t_coord c2)
 	return (c1);
 }
 
-t_coord min_coord(t_coord c1, t_coord c2)
+inline t_coord min_coord(t_coord c1, t_coord c2)
 {
 	c1.x -= c2.x;
 	c1.y -= c2.y;
@@ -28,12 +28,12 @@ t_coord min_coord(t_coord c1, t_coord c2)
 	return (c1);
 }
 
-double ska_mult_coord(t_coord c1, t_coord c2)
+inline double ska_mult_coord(t_coord c1, t_coord c2)
 {
 	return (c1.x * c2.x + c1.y * c2.y + c1.z * c2.z);
 }
 
-t_coord	vect_mult_coord(t_coord c1, t_coord c2)
+inline t_coord	vect_mult_coord(t_coord c1, t_coord c2)
 {
 	t_coord rez;
 
@@ -43,7 +43,7 @@ t_coord	vect_mult_coord(t_coord c1, t_coord c2)
 	return (rez);
 }
 
-t_coord	mult_coord_sca(t_coord c1, double n)
+inline t_coord	mult_coord_sca(t_coord c1, double n)
 {
 	c1.x *= n;
 	c1.y *= n;
@@ -51,12 +51,12 @@ t_coord	mult_coord_sca(t_coord c1, double n)
 	return (c1);
 }
 
-double	norm(t_coord c)
+inline double	norm(t_coord c)
 {
 	return sqrt(c.x * c.x + c.y * c.y + c.z * c.z);
 }
 
-double	len_vect(t_coord c1, t_coord c2)
+inline double	len_vect(t_coord c1, t_coord c2)
 {
 	return (sqrt(
 		(c2.x - c1.x) * (c2.x - c1.x)
@@ -65,7 +65,7 @@ double	len_vect(t_coord c1, t_coord c2)
 	));
 }
 
-t_coord    normalize(t_coord p)
+inline t_coord    normalize(t_coord p)
 {
 	double w = sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
 	if (w != 0)

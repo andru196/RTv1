@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+         #
+#    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/12/12 18:09:57 by sfalia-f         ###   ########.fr        #
+#    Updated: 2020/12/13 21:08:53 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	rtv1
+UNAME := $(shell uname)
 DIR	=				./src/
 FILES	=			main.c\
 					image.c\
@@ -43,7 +44,7 @@ endif
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC)  $(FLAGS) -o $(NAME) $(OBJ) -L $(LIBRARY) -lft   $(LIBS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJ) -L $(LIBRARY) -lft   $(LIBS)
 
 $(LIBFT):
 	make -C $(LIBRARY)

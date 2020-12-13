@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/12 19:02:20 by sfalia-f         ###   ########.fr       */
+/*   Updated: 2020/12/14 00:04:40 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum e_figure			t_figure;
 typedef struct s_figlst			t_figlst;
 typedef struct s_light			t_light;
 typedef struct s_material		t_material;
+typedef struct s_press			t_press;
 
 # include "cl_module.h"
 
@@ -68,6 +69,13 @@ struct 					s_figlst
 	t_figlst			*next;
 };
 
+struct 					s_press
+{
+	char				shift;
+	char				ctrl;
+	char				alt;
+	char				tab;
+};
 
 struct					s_cont
 {
@@ -76,6 +84,9 @@ struct					s_cont
 	int					mouse_click[2];
 	int					is_move;
 	t_img				*img;
+	t_figlst			*figures;
+	t_list				*lights;
+	t_press				pressed_keys;
 	//t_clcomponents		clcomponets;
 };
 
@@ -156,7 +167,7 @@ t_coord					min_coord(t_coord c1, t_coord c2);
 double 					ska_mult_coord(t_coord c1, t_coord c2);
 t_coord					vect_mult_coord(t_coord c1, t_coord c2);
 t_coord					mult_coord_sca(t_coord c1, double n);
-void					render(const t_figlst *figures, int *data, t_list *lights);
+void					render(const t_figlst *figures, int *data, t_list *lights, t_coord orig);
 t_coord					init_coord(double x, double y, double z);
 t_figlst				*init_figure(t_figure fig);
 double					norm(t_coord c);
@@ -166,5 +177,6 @@ int						ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir
 int						ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0);
 int						ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m);
 int						ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, double *t0, double *m);
+int						key_release(int keycode, void *param);
 
 #endif
