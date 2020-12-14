@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 20:56:19 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 21:42:19 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,59 +24,57 @@ t_coord	reflect(t_coord I, t_coord N)
 			2.f))));
 }
 
+static inline t_coord get_hit(t_coord orig, t_coord dir, double d)
+{
+	return (sum_coord(orig, mult_coord_sca(dir, d)));
+}
+
 int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir, 
 				t_coord *hit, t_coord *N, t_material *material, int flag)
 {
 	t_sphere	*sph;
 	double		dist = 99999999999999999999999999999999999999999999999999999.;
 	double		d;
+	double m;
 
 	while (lst)
 	{
 		if (lst->kind == f_sphere)
 		{
-			sph = lst->figure;
-			if (ray_intersect_spher(sph, orig, dir, &d) && d < dist)
+			if (ray_intersect_spher(&lst->figure.sphere, orig, dir, &d) && d < dist)
 			{
 				dist = d;
-				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = get_sphere_normal(sph->center, *hit);
+				*hit = get_hit(orig, dir, d);
+				*N = get_sphere_normal(lst->figure.sphere.center, *hit);
 				*material = lst->mater;
 			}
 		}
 		else if (lst->kind == f_plane)
 		{
-			t_plane *pln = lst->figure;
-			if (ray_intersect_plane(pln, orig, dir, &d) && d < dist) 
+			if (ray_intersect_plane(&lst->figure.plane, orig, dir, &d) && d < dist) 
 			{
 				dist = d;
 				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = get_plane_normal(pln->n, dir);
+				*N = get_plane_normal(lst->figure.plane.n, dir);
 				*material = lst->mater;
 			}
 		}
 		else if (lst->kind == f_cylinder)
 		{
-			double d;
-			t_cylind *cyl = lst->figure;
-			double m;
-			if (ray_intersect_cylinder(cyl, orig, dir, &d, &m) && d < dist) 
+			if (ray_intersect_cylinder(&lst->figure.cylinder, orig, dir, &d, &m) && d < dist)
 			{
 				dist = d;
-				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = get_cylinder_normal(cyl->center, *hit, cyl->v, m);
+				*hit = get_hit(orig, dir, d);
+				*N = get_cylinder_normal(lst->figure.cylinder.center, *hit, lst->figure.cylinder.v, m);
 				*material = lst->mater;
 			}
 		}
 		else if (lst->kind == f_cone)
 		{
-			double d;
-			t_cone *con = lst->figure;
-			double m;
-			if (ray_intersect_cone(con, orig, dir, &d, &m) && d < dist)
+			if (ray_intersect_cone(&lst->figure.cone, orig, dir, &d, &m) && d < dist)
 			{
-				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = get_cone_normal(con->c, *hit, con->v, con->k, m);
+				*hit = get_hit(orig, dir, d);
+				*N = get_cone_normal(lst->figure.cone.c, *hit, lst->figure.cone.v, lst->figure.cone.k, m);
 				*material = lst->mater;
 			}
 		}

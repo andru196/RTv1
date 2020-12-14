@@ -6,13 +6,13 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 18:07:08 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/14 20:12:38 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 21:39:38 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-int ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, double *t, double *m)
+int ray_intersect_cone(const  t_cone *con, const t_coord orig, const t_coord dir, double *t, double *m)
 {
 	t_coord x = min_coord(orig, con->c);	
 	double a, b2, c, d4, s;
@@ -42,7 +42,7 @@ int ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, doubl
 }
 
 
-int ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m)
+int ray_intersect_cylinder(const t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m)
 {
 	double a,b,c, s, d4;
 
@@ -80,7 +80,7 @@ int ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir,
 		return 0;
 }
 
-int ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0)
+int ray_intersect_spher(const t_sphere *sph, const t_coord orig, const t_coord dir, double *t0)
 {
 		t_coord x = min_coord(orig, sph->center);
 		double a = ska_mult_coord(dir, dir);
@@ -99,7 +99,7 @@ int ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, do
 		return 1;
 }
 
-int ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir, double *t)
+int ray_intersect_plane(const t_plane *pln, const t_coord orig, const t_coord dir, double *t)
 {
 	t_coord x = min_coord(orig, pln->c);
 

@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/14 20:31:01 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 21:44:36 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,37 +36,37 @@ static t_figlst		*test_list()
 	
 	rez[0] = init_figure(f_sphere);
 	rez[1] = rez[0];
-	((t_sphere*)rez[1]->figure)->center = init_coord(8, 1, -15);
-	((t_sphere*)rez[1]->figure)->radius = 2;
+	(rez[1]->figure.sphere).center = init_coord(8, 1, -15);
+	(rez[1]->figure.sphere).radius = 2;
 	t_material mat = ivory;
 	mat.diffuse_color = init_coord(0.95, 0.95, 0.95);
 	(rez[1])->mater = mat;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
-	((t_sphere*)rez[1]->figure)->center = init_coord(-10, -3, -13);
-	((t_sphere*)rez[1]->figure)->radius = 4;
+	(rez[1]->figure.sphere).center = init_coord(-10, -3, -13);
+	(rez[1]->figure.sphere).radius = 4;
 	mat.diffuse_color = init_coord(0.5, 1, 0);
 	(rez[1])->mater = red_rubber;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
-	((t_sphere*)rez[1]->figure)->center = init_coord(0.5, -4, -5);
-	((t_sphere*)rez[1]->figure)->radius = 1.5;
+	(rez[1]->figure.sphere).center = init_coord(0.5, -4, -5);
+	(rez[1]->figure.sphere).radius = 1.5;
 	mat.diffuse_color = init_coord(0.33, 0.33, 0.33);
 	(rez[1])->mater = ivory;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
-	((t_sphere*)rez[1]->figure)->center = init_coord(-0.5, -3, -8);
-	((t_sphere*)rez[1]->figure)->radius = 1.5;
+	(rez[1]->figure.sphere).center = init_coord(-0.5, -3, -8);
+	(rez[1]->figure.sphere).radius = 1.5;
 	mat.diffuse_color = init_coord(0.7, 0, 0.1);
 	(rez[1])->mater = red_rubber;
 
 	rez[1]->next = init_figure(f_sphere);
 	rez[1] = rez[1]->next;
-	((t_sphere*)rez[1]->figure)->center = init_coord(0, 0, -25);
-	((t_sphere*)rez[1]->figure)->radius = 1.5;
+	(rez[1]->figure.sphere).center = init_coord(0, 0, -25);
+	(rez[1]->figure.sphere).radius = 1.5;
 	mat.diffuse_color = init_coord(0, 0, 0.9);
 	(rez[1])->mater = ivory;
 
@@ -80,8 +80,8 @@ static t_figlst		*test_list()
 
 	rez[1]->next = init_figure(f_plane);
 	rez[1] = rez[1]->next;
-	((t_plane*)rez[1]->figure)->n = normalize(init_coord(ZERO, 0.5, 1));
-	((t_plane*)rez[1]->figure)->c = init_coord(0, 0, -17);
+	(rez[1]->figure.plane).n = normalize(init_coord(ZERO, 0.5, 1));
+	(rez[1]->figure.plane).c = init_coord(0, 0, -17);
 	(rez[1])->mater = plane_rubber;
 
 	t_material	plane;
@@ -92,25 +92,25 @@ static t_figlst		*test_list()
 	
 	rez[1]->next = init_figure(f_plane);
 	rez[1] = rez[1]->next;
-	((t_plane*)rez[1]->figure)->n = init_coord(10, ZERO, ZERO);
-	((t_plane*)rez[1]->figure)->c = init_coord(5, 1, 1);
+	(rez[1]->figure.plane).n = init_coord(10, ZERO, ZERO);
+	(rez[1]->figure.plane).c = init_coord(5, 1, 1);
 	(rez[1])->mater = plane;
 
 	rez[1]->next = init_figure(f_cylinder);
 	rez[1] = rez[1]->next;
-	((t_cylind*)rez[1]->figure)->v = normalize(init_coord(0, 1, 0.5));
-	((t_cylind*)rez[1]->figure)->maxm = 2;
-	((t_cylind*)rez[1]->figure)->center = init_coord(-1, 0,-5);
-	((t_cylind*)rez[1]->figure)->r = 1;
+	(rez[1]->figure.cylinder).v = normalize(init_coord(0, 1, 0.5));
+	(rez[1]->figure.cylinder).maxm = 2;
+	(rez[1]->figure.cylinder).center = init_coord(-1, 0,-5);
+	(rez[1]->figure.cylinder).r = 1;
 	(rez[1])->mater = red_rubber;
 
 	rez[1]->next = init_figure(f_cone);
 	rez[1] = rez[1]->next;
-	((t_cone*)rez[1]->figure)->v = normalize(init_coord(0, 1, 0.5));
-	((t_cone*)rez[1]->figure)->maxm = 2;
-	((t_cone*)rez[1]->figure)->minm = 0;
-	((t_cone*)rez[1]->figure)->c = init_coord(1, 0,-5);
-	((t_cone*)rez[1]->figure)->k = 0.3;
+	(rez[1]->figure.cone).v = normalize(init_coord(0, 1, 0.5));
+	(rez[1]->figure.cone).maxm = 2;
+	(rez[1]->figure.cone).minm = 0;
+	(rez[1]->figure.cone).c = init_coord(1, 0,-5);
+	(rez[1]->figure.cone).k = 0.3;
 	(rez[1])->mater = ivory;
 	return rez[0];
 }
@@ -155,7 +155,7 @@ int		main(int argc, char **argv)
 	t_list *lights = get_lights();
 	cont.figures = l;
 	cont.lights = lights;
-	render(l, img->data, lights, init_coord(0, 0, 0));
+	render(l, (int *)img->data, lights, init_coord(0, 0, 0));
 	cont.img = img;
 	//set_default(&cont);
 	mlx_put_image_to_window(cont.mlx_ptr, cont.mlx_win, img->img_ptr, 0, 0);

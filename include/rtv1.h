@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 20:50:30 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 21:39:46 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ typedef struct s_cylinder		t_cylind;
 typedef struct s_plane			t_plane;
 typedef unsigned char			byte;
 typedef unsigned long long		t_llu;
-typedef struct s_clcomponents	t_clcomponents;
 typedef enum e_figure			t_figure;
 typedef struct s_figlst			t_figlst;
 typedef struct s_light			t_light;
 typedef struct s_material		t_material;
 typedef struct s_press			t_press;
+typedef union u_gen_fig			t_gen_fig;
 
 struct					s_img
 {
@@ -94,14 +94,6 @@ struct					s_material
     double				specular_exponent;
 };
 
-struct 					s_figlst
-{
-	t_figure			kind;
-	void				*figure;
-	t_material			mater;
-	t_figlst			*next;
-};
-
 struct					s_plane
 {
 	t_coord				n;
@@ -141,6 +133,23 @@ struct					s_cone
 	double				maxm;
 };
 
+union 					u_gen_fig
+{
+	t_cone				cone;
+	t_sphere			sphere;
+	t_plane				plane;
+	t_cylind			cylinder;
+};
+
+
+struct 					s_figlst
+{
+	t_figure			kind;
+	t_gen_fig			figure;
+	t_material			mater;
+	t_figlst			*next;
+};
+
 struct					s_light
 {
 	t_coord				position;
@@ -166,10 +175,10 @@ t_figlst				*init_figure(t_figure fig);
 double					norm(t_coord c);
 double					len_vect(t_coord c1, t_coord c2);
 t_coord					normalize(t_coord p);
-int						ray_intersect_plane(t_plane *pln, const t_coord orig, const t_coord dir, double *t);
-int						ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord dir, double *t0);
-int						ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m);
-int						ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, double *t0, double *m);
+int						ray_intersect_plane(const t_plane *pln, const t_coord orig, const t_coord dir, double *t);
+int						ray_intersect_spher(const t_sphere *sph, const t_coord orig, const t_coord dir, double *t0);
+int						ray_intersect_cylinder(const t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m);
+int						ray_intersect_cone(const t_cone *con, const t_coord orig, const t_coord dir, double *t0, double *m);
 int						key_release(int keycode, void *param);
 t_coord					get_sphere_normal(t_coord center, t_coord hit);
 t_coord					get_plane_normal(t_coord n, t_coord dir);

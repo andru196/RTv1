@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 00:40:44 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/14 20:33:32 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 21:44:09 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		change_orig(t_cont *c, int keycode, t_coord *orig)
 		orig->x -= 1;
 	else if (keycode == RIGHT_KEY)
 		orig->x += 1;
-	render(c->figures, c->img->data, c->lights, *orig);
+	render(c->figures, (int *)c->img->data, c->lights, *orig);
 	mlx_put_image_to_window(c->mlx_ptr, c->mlx_win, c->img->img_ptr, 0, 0);
 }
 
@@ -62,8 +62,6 @@ int 		key_press(int keycode, void *param)
 	else if (keycode == DOWN_KEY || keycode == UP_KEY || keycode == LEFT_KEY
 														|| keycode == RIGHT_KEY)
 		change_orig(c, keycode, &orig);
-	
-	else 
 	return (1);
 }
 
