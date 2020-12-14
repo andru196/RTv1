@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 20:00:39 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 20:09:23 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_coord	reflect(t_coord I, t_coord N)
 			2.f))));
 }
 
-double	sgn(double num)
+static inline double	sgn(double num)
 {
 	if (num > 0)
 		return (1);
@@ -37,37 +37,31 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 				t_coord *hit, t_coord *N, t_material *material, int flag)
 {
 	t_sphere	*sph;
-	double		spheres_dist = 99999999999999999999999999999999999999999999999999999.;
-	double		dist_i = spheres_dist;
+	double		dist = 99999999999999999999999999999999999999999999999999999.;
+	double		d;
 
-	double checkerboard_dist = 99999999999999999999999999999999999999999999999999999.;
 	while (lst)
 	{
 		if (lst->kind == f_sphere)
 		{
 			sph = lst->figure;
-			if (ray_intersect_spher(sph, orig, dir, &dist_i) && dist_i < spheres_dist)
+			if (ray_intersect_spher(sph, orig, dir, &d) && d < dist)
 			{
-				spheres_dist = dist_i;
-				*hit = sum_coord(orig, mult_coord_sca(dir, dist_i));
+				dist = d;
+				*hit = sum_coord(orig, mult_coord_sca(dir, d));
 				*N = normalize(min_coord(*hit, sph->center));
 				*material = sph->mater;
 			}
 		}
 		else if (lst->kind == f_plane)
 		{
-			double d;
 			t_plane *pln = lst->figure;
-			if (ray_intersect_plane(pln, orig, dir, &d)) 
+			if (ray_intersect_plane(pln, orig, dir, &d) && d < dist) 
 			{
-				if (d < checkerboard_dist)
-					checkerboard_dist = d;
-				if (checkerboard_dist < spheres_dist && d == checkerboard_dist)
-				{
-					*hit = sum_coord(orig, mult_coord_sca(dir, d));
-					*N = normalize(mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
-					*material = pln->mater;
-				}
+				dist = d;
+				*hit = sum_coord(orig, mult_coord_sca(dir, d));
+				*N = normalize(mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
+				*material = pln->mater;
 			}
 		}
 		else if (lst->kind == f_cylinder)
@@ -75,16 +69,12 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 			double d;
 			t_cylind *pln = lst->figure;
 			double m;
-			if (ray_intersect_cylinder(pln, orig, dir, &d, &m)) 
+			if (ray_intersect_cylinder(pln, orig, dir, &d, &m) && d < dist) 
 			{
-				if (d < checkerboard_dist)
-					checkerboard_dist = d;
-				if (checkerboard_dist < spheres_dist && d == checkerboard_dist)
-				{
-					*hit = sum_coord(orig, mult_coord_sca(dir, d));
-					*N = normalize(min_coord(min_coord(*hit, pln->center), mult_coord_sca(pln->v, m)));
-					*material = pln->mater;
-				}
+				dist = d;
+				*hit = sum_coord(orig, mult_coord_sca(dir, d));
+				*N = normalize(min_coord(min_coord(*hit, pln->center), mult_coord_sca(pln->v, m)));
+				*material = pln->mater;
 			}
 		}
 		else if (lst->kind == f_cone)
@@ -92,25 +82,18 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 			double d;
 			t_cone *con = lst->figure;
 			double m;
-			if (ray_intersect_cone(con, orig, dir, &d, &m)) 
+			if (ray_intersect_cone(con, orig, dir, &d, &m) && d < dist) 
 			{
-				if (d < checkerboard_dist)
-					checkerboard_dist = d;
-				if (checkerboard_dist < spheres_dist && d == checkerboard_dist)
-				{
-					*hit = sum_coord(orig, mult_coord_sca(dir, d));
-					*N = normalize(
-						min_coord(min_coord(*hit, con->c), mult_coord_sca(con->v, m*(con->k * con->k  + 1)))
-					);
-					*material = con->mater;
-				}
+				*hit = sum_coord(orig, mult_coord_sca(dir, d));
+				*N = normalize(
+					min_coord(min_coord(*hit, con->c), mult_coord_sca(con->v, m*(con->k * con->k  + 1)))
+				);
+				*material = con->mater;
 			}
 		}
 		lst = lst->next;
 	}
-	double rezzzz = spheres_dist > checkerboard_dist ? checkerboard_dist  : spheres_dist;
-
-	return rezzzz < 1000 && rezzzz >= 0.1;
+	return dist < 1000 && dist >= 0.1;
 }
 
 t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, t_list *lights)
@@ -159,7 +142,8 @@ t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, 
 void render(const t_figlst *figures, int *data, t_list *lights, t_coord orig)
 {
 	const int   fov = PI / 2.;
-	size_t j;
+	size_t		j;
+
 	j = 0;
 	for (; j < HEIGHT; j++) 
 	{
@@ -176,7 +160,6 @@ void render(const t_figlst *figures, int *data, t_list *lights, t_coord orig)
 				if (max > 1)
 					c = mult_coord_sca(c,(1./max));
 			}
-			
 			*data++ = (((int)(c.x * 255)) << 16)
 				| (((int)(c.y * 255)) << 8)
 				| ((int)(c.z * 255));
