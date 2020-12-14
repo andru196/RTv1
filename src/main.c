@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/14 21:44:36 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 22:58:24 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static t_figlst		*test_list()
 
 	rez[1]->next = init_figure(f_cylinder);
 	rez[1] = rez[1]->next;
-	(rez[1]->figure.cylinder).v = normalize(init_coord(0, 1, 0.5));
+	(rez[1]->figure.cylinder).v = normalize(init_coord(0, -.6, 1));
 	(rez[1]->figure.cylinder).maxm = 2;
 	(rez[1]->figure.cylinder).center = init_coord(-1, 0,-5);
 	(rez[1]->figure.cylinder).r = 1;
@@ -128,8 +128,8 @@ t_list	*get_lights()
 	light.position = init_coord(10, 0, -11);
 	rez->next = ft_lstnew(&light, sizeof(t_light));
 	
-	light.intensity = 0.9;
-	light.position = init_coord(-10, 11, -11);
+	light.intensity = 0.3;
+	light.position = init_coord(0, 0, 0);
 	rez->next->next = ft_lstnew(&light, sizeof(t_light));
 
 	light.intensity = 0.9;

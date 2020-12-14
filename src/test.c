@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 21:42:19 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 23:05:12 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,23 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 				*N = get_cylinder_normal(lst->figure.cylinder.center, *hit, lst->figure.cylinder.v, m);
 				*material = lst->mater;
 			}
+			t_plane plane;
+			t_coord cent;
+			plane.n = lst->figure.cylinder.v;
+			if (len_vect(orig, lst->figure.cylinder.center) > 
+				len_vect(orig, cent = get_hit(lst->figure.cylinder.center, plane.n, lst->figure.cylinder.maxm)))
+				plane.c = cent;
+			else
+				plane.c = lst->figure.cylinder.center;
+			t_coord hit_p;
+			if (ray_intersect_plane(&plane, orig, dir, &d) && d < dist
+				&& len_vect(hit_p = get_hit(orig, dir, d), plane.c) < lst->figure.cylinder.r)
+			{
+				dist = d;
+				*hit = hit_p;
+				*N = get_plane_normal(lst->figure.plane.n, dir);
+				*material = lst->mater;
+			}
 		}
 		else if (lst->kind == f_cone)
 		{
@@ -75,6 +92,31 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 			{
 				*hit = get_hit(orig, dir, d);
 				*N = get_cone_normal(lst->figure.cone.c, *hit, lst->figure.cone.v, lst->figure.cone.k, m);
+				*material = lst->mater;
+			}
+			t_plane plane;
+			t_coord cent1;
+			t_coord cent2;
+			plane.n = lst->figure.cone.v;
+			double r;
+			if (len_vect(orig, cent1 = get_hit(lst->figure.cone.c, plane.n, -lst->figure.cone.minm)) > 
+				len_vect(orig, cent2 = get_hit(lst->figure.cone.c, plane.n, lst->figure.cone.maxm)))
+				{
+					plane.c = cent2;
+					r = lst->figure.cone.k * lst->figure.cone.maxm;
+				}
+			else
+				{
+					r = lst->figure.cone.k * lst->figure.cone.minm;
+					plane.c = cent1;
+				}
+			t_coord hit_p;
+			if (ray_intersect_plane(&plane, orig, dir, &d) && d < dist
+				&& len_vect(hit_p = get_hit(orig, dir, d), plane.c) < r)
+			{
+				dist = d;
+				*hit = hit_p;
+				*N = get_plane_normal(lst->figure.plane.n, dir);
 				*material = lst->mater;
 			}
 		}
