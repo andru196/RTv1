@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 00:39:15 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 20:00:39 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ t_coord cast_ray(const t_coord orig, const t_coord dir, const t_figlst *figlst, 
 void render(const t_figlst *figures, int *data, t_list *lights, t_coord orig)
 {
 	const int   fov = PI / 2.;
-	t_coord *framebuffer = malloc(WIDTH * HEIGHT * sizeof(t_clcomponents));
 	size_t j;
 	j = 0;
 	for (; j < HEIGHT; j++) 
@@ -183,5 +182,4 @@ void render(const t_figlst *figures, int *data, t_list *lights, t_coord orig)
 				| ((int)(c.z * 255));
 		}
 	}
-	free(framebuffer);
 }

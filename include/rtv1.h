@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 00:04:40 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 19:58:41 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ typedef struct s_figlst			t_figlst;
 typedef struct s_light			t_light;
 typedef struct s_material		t_material;
 typedef struct s_press			t_press;
-
-# include "cl_module.h"
-
 
 struct					s_img
 {

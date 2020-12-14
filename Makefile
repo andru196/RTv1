@@ -6,7 +6,7 @@
 #    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/12/13 21:08:53 by andru            ###   ########.fr        #
+#    Updated: 2020/12/14 19:59:40 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,11 @@ FILES	=			main.c\
 					free_cont.c\
 					events_keyboard.c\
 					events_mouse.c\
-					cl_fun.c cl_fun2.c\
 					test.c\
 					t_coord_fun.c\
 					figure_logic.c \
 					shapes.c
-					#process_multy_thread.c\
-					#process_single_thread.c
+					
 SRCS			=	$(addprefix $(DIR), $(FILES))
 OBJ				=	$(patsubst %.c, %.o, $(SRCS))
 CC				=	clang
