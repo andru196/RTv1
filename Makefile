@@ -6,7 +6,7 @@
 #    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/12/14 19:59:40 by andru            ###   ########.fr        #
+#    Updated: 2020/12/14 20:51:28 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ FILES	=			main.c\
 					test.c\
 					t_coord_fun.c\
 					figure_logic.c \
-					shapes.c
+					shapes.c normals.c
 					
 SRCS			=	$(addprefix $(DIR), $(FILES))
 OBJ				=	$(patsubst %.c, %.o, $(SRCS))

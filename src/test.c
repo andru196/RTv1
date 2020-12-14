@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:22:23 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 20:09:23 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 20:56:19 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,6 @@ t_coord	reflect(t_coord I, t_coord N)
 			((
 				ska_mult_coord(I, N)*
 			2.f))));
-}
-
-static inline double	sgn(double num)
-{
-	if (num > 0)
-		return (1);
-	if (num == .0)
-		return (0);
-	return (-1);
 }
 
 int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir, 
@@ -49,8 +40,8 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 			{
 				dist = d;
 				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = normalize(min_coord(*hit, sph->center));
-				*material = sph->mater;
+				*N = get_sphere_normal(sph->center, *hit);
+				*material = lst->mater;
 			}
 		}
 		else if (lst->kind == f_plane)
@@ -60,21 +51,21 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 			{
 				dist = d;
 				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = normalize(mult_coord_sca(pln->n, -sgn(ska_mult_coord(dir, pln->n))));
-				*material = pln->mater;
+				*N = get_plane_normal(pln->n, dir);
+				*material = lst->mater;
 			}
 		}
 		else if (lst->kind == f_cylinder)
 		{
 			double d;
-			t_cylind *pln = lst->figure;
+			t_cylind *cyl = lst->figure;
 			double m;
-			if (ray_intersect_cylinder(pln, orig, dir, &d, &m) && d < dist) 
+			if (ray_intersect_cylinder(cyl, orig, dir, &d, &m) && d < dist) 
 			{
 				dist = d;
 				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = normalize(min_coord(min_coord(*hit, pln->center), mult_coord_sca(pln->v, m)));
-				*material = pln->mater;
+				*N = get_cylinder_normal(cyl->center, *hit, cyl->v, m);
+				*material = lst->mater;
 			}
 		}
 		else if (lst->kind == f_cone)
@@ -82,13 +73,11 @@ int scene_intersect(const t_figlst *lst, const t_coord orig, const t_coord dir,
 			double d;
 			t_cone *con = lst->figure;
 			double m;
-			if (ray_intersect_cone(con, orig, dir, &d, &m) && d < dist) 
+			if (ray_intersect_cone(con, orig, dir, &d, &m) && d < dist)
 			{
 				*hit = sum_coord(orig, mult_coord_sca(dir, d));
-				*N = normalize(
-					min_coord(min_coord(*hit, con->c), mult_coord_sca(con->v, m*(con->k * con->k  + 1)))
-				);
-				*material = con->mater;
+				*N = get_cone_normal(con->c, *hit, con->v, con->k, m);
+				*material = lst->mater;
 			}
 		}
 		lst = lst->next;

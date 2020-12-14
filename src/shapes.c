@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 18:07:08 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/14 00:37:35 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 20:12:38 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, double *t, double *m)
 {
-	t_coord x = min_coord(orig, con->c);
-	
+	t_coord x = min_coord(orig, con->c);	
 	double a, b2, c, d4, s;
 	s = ska_mult_coord(dir, con->v);
 
@@ -23,7 +22,6 @@ int ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, doubl
 	b2 = ska_mult_coord(dir, x) - (1 + con->k * con->k) * s * ska_mult_coord(x, con->v);
 	c = ska_mult_coord(x, x) - ((1 + con->k * con->k)) * ska_mult_coord(x, con->v) * ska_mult_coord(x, con->v);
 	d4 = b2 * b2 - a * c;
-	double x1, x2;
 
 	*t = (-b2 + sqrt(d4)) / a;
 	double t1 = (-b2 - sqrt(d4)) / a;

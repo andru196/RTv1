@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 19:58:41 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/14 20:50:30 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,6 @@ enum					e_figure
 	f_cone
 };
 
-struct 					s_figlst
-{
-	t_figure			kind;
-	void				*figure;
-	t_figlst			*next;
-};
-
 struct 					s_press
 {
 	char				shift;
@@ -84,7 +77,6 @@ struct					s_cont
 	t_figlst			*figures;
 	t_list				*lights;
 	t_press				pressed_keys;
-	//t_clcomponents		clcomponets;
 };
 
 struct					s_coordinate
@@ -102,17 +94,23 @@ struct					s_material
     double				specular_exponent;
 };
 
+struct 					s_figlst
+{
+	t_figure			kind;
+	void				*figure;
+	t_material			mater;
+	t_figlst			*next;
+};
+
 struct					s_plane
 {
 	t_coord				n;
 	t_coord				c;
-	t_material			mater;
 };
 
 struct					s_sphere
 {
 	t_coord				center;
-	t_material			mater;
 	double				radius;
 };
 
@@ -126,7 +124,6 @@ struct					s_cylinder
 	t_coord				v;
 	double				r;
 	double				maxm;
-	t_material			mater;
 };
 
 /*
@@ -142,7 +139,6 @@ struct					s_cone
 	double				k;
 	double				minm;
 	double				maxm;
-	t_material			mater;
 };
 
 struct					s_light
@@ -175,5 +171,10 @@ int						ray_intersect_spher(t_sphere *sph, const t_coord orig, const t_coord di
 int						ray_intersect_cylinder(t_cylind *cyl, const t_coord orig, const t_coord dir, double *t, double *m);
 int						ray_intersect_cone(t_cone *con, const t_coord orig, const t_coord dir, double *t0, double *m);
 int						key_release(int keycode, void *param);
-
+t_coord					get_sphere_normal(t_coord center, t_coord hit);
+t_coord					get_plane_normal(t_coord n, t_coord dir);
+t_coord 				get_cylinder_normal(t_coord center, t_coord hit,
+													t_coord normal, double m);
+t_coord					get_cone_normal(t_coord center, t_coord hit,
+										t_coord normal, double k, double m);
 #endif
