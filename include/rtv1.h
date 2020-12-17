@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 21:39:46 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 00:20:39 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@
 # include "mlx.h"
 # include <math.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+
 # define WIDTH 1024
 # define HEIGHT 1024
 # define PI 3.141592653589793238462643383279502884197169399375105820974944592
-# define DELTA 1.5L
-# define DELTA_MAXITER 100
+# define FIGURES_NAMES {"cylinder", "sphere", "plane", "cone"}
+# define LIGHT_NAME "light"
 
 typedef struct s_cont			t_cont;
 typedef struct s_img			t_img;
@@ -71,7 +76,6 @@ struct					s_cont
 {
 	void				*mlx_ptr;
 	void				*mlx_win;
-	int					mouse_click[2];
 	int					is_move;
 	t_img				*img;
 	t_figlst			*figures;
@@ -89,7 +93,7 @@ struct					s_coordinate
 struct					s_material
 {
 	double				refractive_index;
-    double				albedo[4];
+    double				albedo[2];
     t_coord				diffuse_color;
     double				specular_exponent;
 };
@@ -156,7 +160,8 @@ struct					s_light
     double				intensity;
 };
 
-
+void					print_errno(int errnom, t_cont *c);
+void					print_error(char *error, t_cont *c);
 t_img					*new_image(void *mlx_ptr, int width, int height);
 void					configure_events(t_cont *c);
 void					free_cont(t_cont *c);

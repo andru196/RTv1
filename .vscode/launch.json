@@ -15,6 +15,18 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb"
+        },
+        {
+            "name": "a.out debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/a.out",
+             "args": ["/home/andru/Desktop/Rtv1/src/events.c"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb"
         }
     ]
 }
