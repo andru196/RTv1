@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 23:00:58 by andru             #+#    #+#             */
-/*   Updated: 2020/12/18 14:35:38 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 21:26:14 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,17 +131,17 @@ t_coord		get_coord(char *str)
 
 	ft_bzero(&rez, sizeof(t_coord));
 	str++;
-	rez.x = ft_atoi(str);
+	rez.x = ft_atof(str);
 	while (*str != ' ' && *str)
 		str++;
 	while (*str == ' ' && *str)
 		str++;
-	rez.y = ft_atoi(str);
+	rez.y = ft_atof(str);
 	while (*str != ' ' && *str)
 		str++;
 	while (*str == ' ' && *str)
 		str++;
-	rez.z = ft_atoi(str);
+	rez.z = ft_atof(str);
 	return (rez);
 }
 
@@ -162,7 +162,7 @@ static int	read_line(char *str, t_cont *c)
 		j = 0;
 		while (words[i])
 		{
-			if (*words[i] == '{' && j + sizeof(t_coord) < sizeof(t_gen_fig))
+			if (*words[i] == '{' && j + sizeof(t_coord) <= sizeof(t_gen_fig))
 			{
 				*(t_coord *)(((int8_t *)&fig->figure) + j) = get_coord(words[i]);
 				j += sizeof(t_coord);
@@ -174,9 +174,9 @@ static int	read_line(char *str, t_cont *c)
 				fig->mater.diffuse_color.y = (double)((col & 0xff00) >> 8) / 255;
 				fig->mater.diffuse_color.z = (double)((col & 0xff)) / 255;
 			}
-			else if (j + sizeof(double) < sizeof(t_gen_fig))
+			else if (j + sizeof(double) <= sizeof(t_gen_fig))
 			{
-				*(double *)(((int8_t *)&fig->figure) + j) = (double)ft_atoi(words[i]);
+				*(double *)(((int8_t *)&fig->figure) + j) = (double)ft_atof(words[i]);
 				j += sizeof(double);
 			}
 			i++;
@@ -212,7 +212,7 @@ int			read_scene(t_cont *c, char *path)
 	char	*buf;
 	int		rez;
 
-	fd = open(path, __O_DIRECTORY);
+	fd = open(path, O_DIRECTORY);
 	if (fd != -1)
 		print_errno(21, c);
 	fd = open(path, O_RDONLY);
@@ -224,6 +224,17 @@ int			read_scene(t_cont *c, char *path)
 		if (!rez && *buf != '#')
 			rez = read_line(buf, c);
 		free(buf);
+	}
+	t_figlst *fig = c->figures;
+	while (fig)
+	{
+		if (fig->kind == f_cone)
+			fig->figure.cone.v = normalize(fig->figure.cone.v);
+		else if (fig->kind == f_cylinder)
+			fig->figure.cylinder.v = normalize(fig->figure.cylinder.v);
+		else if (fig->kind == f_plane)
+			fig->figure.plane.n = normalize(fig->figure.plane.n);
+		fig = fig->next;
 	}
 	close(fd);
 	return (rez);

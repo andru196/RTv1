@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:22:12 by andru             #+#    #+#             */
-/*   Updated: 2020/12/18 14:39:09 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 18:12:34 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ t_figlst	*init_figure(t_figure fig)
 
 	if (!(rez = ft_memalloc(sizeof(t_figlst))))
 		return (0);
-	rez->mater.albedo[0] = 0.5;
+	rez->mater.albedo[0] = 0.6;
 	rez->mater.albedo[1] = 0.6;
-	rez->mater.refractive_index = 0.4;
-	rez->mater.specular_exponent = 7;
+	rez->mater.refractive_index = 0.9;
+	rez->mater.specular_exponent = 13;
 	rez->kind = fig;
 	return (rez);
 }

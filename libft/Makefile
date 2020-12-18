@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
+#    By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/05 17:33:42 by ycorrupt          #+#    #+#              #
-#    Updated: 2020/11/13 01:32:17 by andru            ###   ########.fr        #
+#    Updated: 2020/12/18 19:14:47 by sfalia-f         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ ft_strdel.c ft_strclr.c ft_striter.c ft_striteri.c ft_strmap.c ft_strmapi.c ft_s
 ft_strjoin.c ft_strtrim.c ft_strsplit.c ft_itoa.c ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c read_file.c ft_acontainstr.c\
 ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_memchr.c ft_swap.c ft_mod.c ft_array.c ft_atoix.c ft_isspace.c\
 ft_lstadd.c ft_lstdel.c ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c ft_pow.c ft_isupper.c ft_islower.c ft_itoa_base.c \
-ft_strcapitalize.c ft_strndup.c get_next_line.c ft_utoa.c ft_mult.c ft_power_for_two.c ft_mult_atod.c ft_lstlen.c ft_lstladd.c
+ft_strcapitalize.c ft_strndup.c get_next_line.c ft_utoa.c ft_mult.c ft_power_for_two.c ft_mult_atod.c ft_lstlen.c ft_lstladd.c\
+ft_atof.c
 SRCS2 = ./ft_printf/csp.c ./ft_printf/dioux.c ./ft_printf/f.c ./ft_printf/flags.c ./ft_printf/ft_dtoa.c ./ft_printf/print.c ./ft_printf/searching.c \
 ./ft_printf/size_converter.c ./ft_printf/size_revision.c ./ft_printf/lst_killer.c ./ft_printf/help.c  ft_printf/e.c ft_printf/ft_insert.c ft_printf/g.c ft_printf/print_for_prinf.c
 OBJ1 = $(SRCS1:.c=.o)

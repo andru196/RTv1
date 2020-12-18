@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sfalia-f <sfalia-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 13:09:54 by ycorrupt          #+#    #+#             */
-/*   Updated: 2020/11/09 00:47:19 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 19:13:10 by sfalia-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ size_t			ft_lstcontsize(t_list *frst);
 int				read_all_text(const char *path, char **ret);
 int				read_all_lines(const char *path, char ***ret, size_t *lines_num);
 size_t			ft_acontainstr(char *str, char **arr, size_t arrlenth);
+double			ft_atof(char *str);
 
 #endif

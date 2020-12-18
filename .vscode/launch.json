@@ -9,12 +9,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/rtv1",
-             "args": ["/home/andru/Desktop/Rtv1/scene/first.scene"],
+             "args": ["scene/fourth.scene"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "gdb"
+            "MIMode": "lldb"
         }
     ]
 }
