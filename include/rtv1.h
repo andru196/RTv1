@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/18 14:35:15 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 14:46:03 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ struct					s_material
 
 struct					s_plane
 {
-	t_coord				n;
 	t_coord				c;
+	t_coord				n;
 };
 
 struct					s_sphere
