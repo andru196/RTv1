@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 23:58:11 by sfalia-f          #+#    #+#             */
-/*   Updated: 2020/12/14 22:58:24 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 14:17:01 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,11 +151,8 @@ int		main(int argc, char **argv)
 		ft_putendl("Start failed!");
 	configure_events(&cont);
 	img = new_image(cont.mlx_ptr, WIDTH, HEIGHT);
-	t_figlst *l = test_list();
-	t_list *lights = get_lights();
-	cont.figures = l;
-	cont.lights = lights;
-	render(l, (int *)img->data, lights, init_coord(0, 0, 0));
+	read_scene(&cont, argv[1]);
+	render(cont.figures, (int *)img->data, cont.lights, init_coord(0, 0, 0));
 	cont.img = img;
 	//set_default(&cont);
 	mlx_put_image_to_window(cont.mlx_ptr, cont.mlx_win, img->img_ptr, 0, 0);

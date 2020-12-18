@@ -6,7 +6,7 @@
 #    By: andru <andru@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 17:08:37 by sfalia-f          #+#    #+#              #
-#    Updated: 2020/12/14 20:51:28 by andru            ###   ########.fr        #
+#    Updated: 2020/12/18 14:18:55 by andru            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,9 @@ FILES	=			main.c\
 					test.c\
 					t_coord_fun.c\
 					figure_logic.c \
-					shapes.c normals.c
-					
+					shapes.c normals.c\
+					read_scene.c\
+					print_error.c
 SRCS			=	$(addprefix $(DIR), $(FILES))
 OBJ				=	$(patsubst %.c, %.o, $(SRCS))
 CC				=	clang

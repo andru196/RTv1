@@ -6,11 +6,17 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:22:12 by andru             #+#    #+#             */
-/*   Updated: 2020/12/14 21:26:10 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 14:39:09 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+void		add_fig(t_figlst **frst, t_figlst *el)
+{
+	el->next = *frst;
+	*frst = el;
+}
 
 t_figlst	*init_figure(t_figure fig)
 {
@@ -19,6 +25,10 @@ t_figlst	*init_figure(t_figure fig)
 
 	if (!(rez = ft_memalloc(sizeof(t_figlst))))
 		return (0);
+	rez->mater.albedo[0] = 0.5;
+	rez->mater.albedo[1] = 0.6;
+	rez->mater.refractive_index = 0.4;
+	rez->mater.specular_exponent = 7;
 	rez->kind = fig;
 	return (rez);
 }

@@ -6,7 +6,7 @@
 /*   By: andru <andru@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:21:32 by andru             #+#    #+#             */
-/*   Updated: 2020/12/18 00:20:39 by andru            ###   ########.fr       */
+/*   Updated: 2020/12/18 14:35:15 by andru            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 
-# define WIDTH 1024
-# define HEIGHT 1024
-# define PI 3.141592653589793238462643383279502884197169399375105820974944592
-# define FIGURES_NAMES {"cylinder", "sphere", "plane", "cone"}
-# define LIGHT_NAME "light"
-
 typedef struct s_cont			t_cont;
 typedef struct s_img			t_img;
 typedef struct s_coordinate		t_coord;
@@ -44,6 +38,11 @@ typedef struct s_light			t_light;
 typedef struct s_material		t_material;
 typedef struct s_press			t_press;
 typedef union u_gen_fig			t_gen_fig;
+
+# define WIDTH 1024
+# define HEIGHT 1024
+# define PI 3.141592653589793238462643383279502884197169399375105820974944592
+# define LIGHT_NAME "light"
 
 struct					s_img
 {
@@ -63,6 +62,10 @@ enum					e_figure
 	f_cylinder,
 	f_cone
 };
+
+# define FIG_NUMS 4
+# define FIGURES_NAMES {"cylinder", "sphere", "plane", "cone", NULL}
+# define FIGURES_TYPES {f_cylinder, f_sphere, f_plane, f_cone}
 
 struct 					s_press
 {
@@ -177,6 +180,7 @@ t_coord					mult_coord_sca(t_coord c1, double n);
 void					render(const t_figlst *figures, int *data, t_list *lights, t_coord orig);
 t_coord					init_coord(double x, double y, double z);
 t_figlst				*init_figure(t_figure fig);
+void					add_fig(t_figlst **frst, t_figlst *el);
 double					norm(t_coord c);
 double					len_vect(t_coord c1, t_coord c2);
 t_coord					normalize(t_coord p);
@@ -191,4 +195,5 @@ t_coord 				get_cylinder_normal(t_coord center, t_coord hit,
 													t_coord normal, double m);
 t_coord					get_cone_normal(t_coord center, t_coord hit,
 										t_coord normal, double k, double m);
+int						read_scene(t_cont *c, char *path);
 #endif
